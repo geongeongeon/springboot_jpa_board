@@ -6,6 +6,7 @@ import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,13 @@ class JpaBoardApplicationTests {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@BeforeEach
+	void beforeEach() {
+		userRepository.deleteAll();
+
+		userRepository.clearIdAutoIncrement();
+	}
 
 	@Test
 	@DisplayName("회원 1명 생성")

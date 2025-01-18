@@ -14,6 +14,7 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers(new AntPathRequestMatcher("/")).permitAll()
+                        .requestMatchers(new AntPathRequestMatcher("/user/create")).permitAll()
                         .anyRequest().authenticated()
                 );
 

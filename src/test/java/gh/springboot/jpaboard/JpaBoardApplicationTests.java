@@ -4,10 +4,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class JpaboardApplicationTests {
+class JpaBoardApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void t001() {
 	}
 
 }

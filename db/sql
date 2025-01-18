@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS jpa_board;
+CREATE DATABASE jpa_board;
+USE jpa_board;

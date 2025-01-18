@@ -5,7 +5,6 @@ import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +27,9 @@ class JpaBoardApplicationTests {
 		userRepository.deleteAll();
 
 		userRepository.clearIdAutoIncrement();
+
+		SiteUser createStartUser1 = userService.createUser("start_user1", "1234", "start_user1@test.com", UserRole.ADMIN);
+		SiteUser createStartUser2 = userService.createUser("start_user2", "1234", "start_user2@test.com", UserRole.USER);
 	}
 
 	@Test

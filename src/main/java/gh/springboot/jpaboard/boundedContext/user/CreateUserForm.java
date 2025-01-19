@@ -10,18 +10,18 @@ import lombok.Setter;
 @Setter
 public class CreateUserForm {
 
-    @Size(min = 5, max = 15, message = "'아이디'는 5~15 글자 사이로 입력해주세요.")
-    @NotBlank(message = "'아이디'를 입력해주세요.")
+    @Size(min = 5, max = 15, message = "아이디는 5 ~ 15글자 사이로 입력해주세요.")
+    @NotBlank(message = "아이디를 입력해주세요.")
     private String username;
 
-    @NotBlank(message = "'비밀번호'를 입력해주세요.")
+    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password1;
 
-    @NotBlank(message = "'비밀번호 확인'을 입력해주세요.")
+    @NotBlank(message = "비밀번호 확인을 입력해주세요.")
     private String password2;
 
     @Email
-    @NotBlank(message = "'이메일'을 입력해주세요.")
+    @NotBlank(message = "이메일을 입력해주세요.")
     private String email;
 
 }

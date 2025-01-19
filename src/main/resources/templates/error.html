@@ -1,0 +1,3 @@
+<div class="alert alert-danger" th:if="${#fields.hasErrors()}">
+    <div th:each="err : ${#fields.allErrors()}" th:text="${err}"></div>
+</div>

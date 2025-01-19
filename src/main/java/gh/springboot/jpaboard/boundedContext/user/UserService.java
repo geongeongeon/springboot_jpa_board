@@ -12,9 +12,9 @@ public class UserService {
 
     private  final PasswordEncoder passwordEncoder;
 
-    public SiteUser createUser(String name, String password, String email, UserRole role) {
+    public SiteUser createUser(String username, String password, String email, UserRole role) {
         SiteUser user = new SiteUser();
-        user.setUsername(name);
+        user.setUsername(username);
         user.setPassword(passwordEncoder.encode(password));
         user.setEmail(email);
         user.setRole(role);

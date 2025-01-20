@@ -12,6 +12,6 @@ public interface UserRepository extends JpaRepository<SiteUser, Long> {
     @Query(value = "ALTER TABLE site_user AUTO_INCREMENT = 1;", nativeQuery = true)
     void clearIdAutoIncrement();
 
-    SiteUser findByUsername(String user1);
+    SiteUser findByUsername(String user);
 
 }

@@ -48,7 +48,7 @@ public class UserController {
             return "user/create";
         }
 
-        return "redirect:/";
+        return "redirect:/user/login";
     }
 
     @GetMapping("/login")

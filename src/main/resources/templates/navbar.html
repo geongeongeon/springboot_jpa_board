@@ -19,7 +19,9 @@
 
             <ul class="navbar-nav d-flex gap-3" sec:authorize="isAuthenticated()">
                 <li class="nav-item">
-                    <a class="nav-link" href="/user/logout">로그아웃</a>
+                    <a class="nav-link" href="javascript:;" onclick="$('#postLogout').submit();">로그아웃</a>
+
+                    <form id="postLogout" th:action="@{/user/logout}" method="POST" hidden></form>
                 </li>
             </ul>
         </div>

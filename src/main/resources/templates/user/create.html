@@ -1,8 +1,8 @@
 <html layout:decorate="~{layout}">
     <div class="container" style="max-width:750px;" layout:fragment="content">
-        <form class="p-4 border rounded" th:action="@{/user/create}" method="POST" th:object="${createUserForm}">
-            <div class="text-center mb-3">
-                <span class="fw-semibold fs-3">회원가입</span>
+        <form class="px-5 py-4 border rounded" th:action="@{/user/create}" method="POST" th:object="${createUserForm}">
+            <div class="text-center mb-4">
+                <span class="fw-semibold fs-3">SIGN-UP</span>
             </div>
 
             <div th:replace="error"></div>
@@ -22,13 +22,13 @@
                 <input class="form-control" th:field="*{password2}" type="password">
             </div>
 
-            <div class="input-group mb-3">
+            <div class="input-group">
                 <label class="input-group-text" style="min-width:150px;" for="email">이메일</label>
                 <input class="form-control" th:field="*{email}" type="email">
             </div>
 
-            <div class="text-center">
-                <button class="btn btn-outline-dark" style="min-width:100px;" type="submit">가입</button>
+            <div class="text-center mt-4">
+                <button class="btn btn-outline-dark" style="width:100px;" type="submit">가입</button>
             </div>
         </form>
     </div>

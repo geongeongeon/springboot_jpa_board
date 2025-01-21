@@ -5,7 +5,6 @@ import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,7 @@ class JpaBoardApplicationTests {
 
 		userRepository.clearIdAutoIncrement();
 
-		SiteUser createStartUser1 = userService.createUser("start_user1", "1234", "start_user1@test.com", UserRole.ADMIN);
+		SiteUser createStartUser1 = userService.createUser("start_user1", "1234", "start_user1@test.com", UserRole.USER);
 		SiteUser createStartUser2 = userService.createUser("start_user2", "1234", "start_user2@test.com", UserRole.USER);
 	}
 
@@ -82,7 +81,7 @@ class JpaBoardApplicationTests {
 		assertThat(findUser.get().getUsername()).isEqualTo("start_user1");
 		assertThat(passwordEncoder.matches("1234", findUser.get().getPassword())).isTrue();
 		assertThat(findUser.get().getEmail()).isEqualTo("start_user1@test.com");
-		assertThat(findUser.get().getRole()).isEqualTo(UserRole.ADMIN);
+		assertThat(findUser.get().getRole()).isEqualTo(UserRole.USER);
 	}
 
 }

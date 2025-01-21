@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 public interface UserRepository extends JpaRepository<SiteUser, Long> {
 
     @Transactional
@@ -12,6 +14,6 @@ public interface UserRepository extends JpaRepository<SiteUser, Long> {
     @Query(value = "ALTER TABLE site_user AUTO_INCREMENT = 1;", nativeQuery = true)
     void clearIdAutoIncrement();
 
-    SiteUser findByUsername(String user);
+    Optional<SiteUser> findByUsername(String username);
 
 }

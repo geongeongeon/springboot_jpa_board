@@ -7,13 +7,19 @@
                 </li>
             </ul>
 
-            <ul class="navbar-nav d-flex gap-3">
+            <ul class="navbar-nav d-flex gap-3" sec:authorize="isAnonymous()">
                 <li class="nav-item">
                     <a class="nav-link" href="/user/login">로그인</a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="/user/create">회원가입</a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav d-flex gap-3" sec:authorize="isAuthenticated()">
+                <li class="nav-item">
+                    <a class="nav-link" href="/user/logout">로그아웃</a>
                 </li>
             </ul>
         </div>

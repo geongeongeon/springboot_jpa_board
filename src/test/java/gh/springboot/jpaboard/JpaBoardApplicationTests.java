@@ -28,10 +28,11 @@ class JpaBoardApplicationTests {
 	@Autowired
 	private UserRepository userRepository;
 
+	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 	@BeforeEach
 	void beforeEach() {
 		userRepository.deleteAll();
-
 		userRepository.clearIdAutoIncrement();
 
 		SiteUser createStartUser1 = userService.createUser("start_user1", "1234", "start_user1@test.com", UserRole.USER);
@@ -43,7 +44,7 @@ class JpaBoardApplicationTests {
 	void t001() {
 		long countAllUser = userRepository.count();
 
-		SiteUser createUser = userService.createUser("user1", "1234", "user1@test.com", UserRole.USER);
+		userService.createUser("user1", "1234", "user1@test.com", UserRole.USER);
 
 		assertThat(userRepository.count()).isEqualTo(countAllUser + 1L);
 	}
@@ -51,28 +52,24 @@ class JpaBoardApplicationTests {
 	@Test
 	@DisplayName("아이디 중복 예외 발생")
 	void t002() {
-		SiteUser createUser = userService.createUser("user1", "1234", "user1@test.com", UserRole.USER);
-
 		assertThrows(DataIntegrityViolationException.class, () -> {
-			SiteUser duplicateUser = userService.createUser("user1", "1234", "user2@test.com", UserRole.USER);
+			userService.createUser("start_user1", "1234", "start_user1@test.com", UserRole.USER);
 		});
 	}
 
 	@Test
 	@DisplayName("이메일 중복 예외 발생")
 	void t003() {
-		SiteUser createUser = userService.createUser("user1", "1234", "user1@test.com", UserRole.USER);
+		userService.createUser("user1", "1234", "user1@test.com", UserRole.USER);
 
 		assertThrows(DataIntegrityViolationException.class, () -> {
-			SiteUser duplicateUser = userService.createUser("user2", "1234", "user1@test.com", UserRole.USER);
+			userService.createUser("user2", "1234", "user1@test.com", UserRole.USER);
 		});
 	}
 
 	@Test
 	@DisplayName("1번 회원 데이터 조회")
 	void t004() {
-		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
 		Optional<SiteUser> findUser = userRepository.findById(1L);
 
 		assertThat(findUser).isNotEmpty();

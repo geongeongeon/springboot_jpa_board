@@ -1,2 +1,11 @@
 <html layout:decorate="~{layout}">
+    <div class="container" layout:fragment="content">
+        <div class="text-center">
+            <span class="fs-4" sec:authorize="isAuthenticated()" th:text="${username} + ' 님 안녕하세요!'"></span>
+        </div>
+
+        <div class="text-center" sec:authorize="isAnonymous()">
+            <span class="fs-4">로그인 후 이용해주세요!</span>
+        </div>
+    </div>
 </html>

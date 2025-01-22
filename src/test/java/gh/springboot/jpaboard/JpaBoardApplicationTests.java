@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
+@Transactional
 class JpaBoardApplicationTests {
 
 	@Autowired
@@ -29,15 +31,6 @@ class JpaBoardApplicationTests {
 	private UserRepository userRepository;
 
 	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-	@BeforeEach
-	void beforeEach() {
-		userRepository.deleteAll();
-		userRepository.clearIdAutoIncrement();
-
-		SiteUser createStartUser1 = userService.createUser("start_user1", "1234", "start_user1@test.com", UserRole.USER);
-		SiteUser createStartUser2 = userService.createUser("start_user2", "1234", "start_user2@test.com", UserRole.USER);
-	}
 
 	@Test
 	@DisplayName("회원 1명 생성")
@@ -53,17 +46,15 @@ class JpaBoardApplicationTests {
 	@DisplayName("아이디 중복 예외 발생")
 	void t002() {
 		assertThrows(DataIntegrityViolationException.class, () -> {
-			userService.createUser("start_user1", "1234", "start_user1@test.com", UserRole.USER);
+			userService.createUser("start_user1", "1234", "user1@test.com", UserRole.USER);
 		});
 	}
 
 	@Test
 	@DisplayName("이메일 중복 예외 발생")
 	void t003() {
-		userService.createUser("user1", "1234", "user1@test.com", UserRole.USER);
-
 		assertThrows(DataIntegrityViolationException.class, () -> {
-			userService.createUser("user2", "1234", "user1@test.com", UserRole.USER);
+			userService.createUser("user1", "1234", "start_user1@test.com", UserRole.USER);
 		});
 	}
 
@@ -75,10 +66,10 @@ class JpaBoardApplicationTests {
 		assertThat(findUser).isNotEmpty();
 
 		assertThat(findUser.get().getId()).isEqualTo(1L);
-		assertThat(findUser.get().getUsername()).isEqualTo("start_user1");
+		assertThat(findUser.get().getUsername()).isEqualTo("admin");
 		assertThat(passwordEncoder.matches("1234", findUser.get().getPassword())).isTrue();
-		assertThat(findUser.get().getEmail()).isEqualTo("start_user1@test.com");
-		assertThat(findUser.get().getRole()).isEqualTo(UserRole.USER);
+		assertThat(findUser.get().getEmail()).isEqualTo("admin@test.com");
+		assertThat(findUser.get().getRole()).isEqualTo(UserRole.ADMIN);
 	}
 
 }

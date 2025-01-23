@@ -28,8 +28,7 @@ public class UserController {
         }
 
         if (!createUserForm.getPassword1().equals(createUserForm.getPassword2())) {
-            bindingResult.rejectValue("password2", "signupFailed",
-                    "비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.");
+            bindingResult.rejectValue("password2", "signupFailed", "비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.");
 
             return "user/create";
         }
@@ -37,12 +36,20 @@ public class UserController {
         try {
             userService.createUser(createUserForm.getUsername(), createUserForm.getPassword1(), createUserForm.getEmail(), UserRole.USER);
         } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
-            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+            String[] errors = e.getMessage().split("duplicateError");
+
+            for (String error : errors) {
+                if (error.equals("Username")) {
+                    bindingResult.reject("signupFailed", "이미 존재하는 아이디입니다.");
+                }
+
+                if (error.equals("Email")) {
+                    bindingResult.reject("signupFailed", "이미 존재하는 이메일입니다.");
+                }
+            }
 
             return "user/create";
         } catch (Exception e) {
-            e.printStackTrace();
             bindingResult.reject("signupFailed", e.getMessage());
 
             return "user/create";

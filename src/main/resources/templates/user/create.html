@@ -1,6 +1,6 @@
 <html layout:decorate="~{layout}">
     <div class="container" style="max-width:750px;" layout:fragment="content">
-        <form class="px-5 py-4 border rounded" th:action="@{/user/create}" method="POST" th:object="${createUserForm}">
+        <form class="px-5 py-4 border rounded" th:action="@{/user/create}" th:object="${createUserForm}" method="POST">
             <div class="text-center mb-4">
                 <span class="fw-semibold fs-3">SIGN-UP</span>
             </div>

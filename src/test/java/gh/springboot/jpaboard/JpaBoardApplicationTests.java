@@ -5,7 +5,6 @@ import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Optional;
 
@@ -21,14 +20,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-@Transactional
+@ActiveProfiles("test")
 class JpaBoardApplicationTests {
 
 	@Autowired
-	private UserService userService;
+	private UserRepository userRepository;
 
 	@Autowired
-	private UserRepository userRepository;
+	private UserService userService;
 
 	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

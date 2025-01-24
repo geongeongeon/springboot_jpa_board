@@ -5,6 +5,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/">홈</a>
                 </li>
+
+                <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                    <a class="nav-link" href="/admin/users">회원관리</a>
+                </li>
             </ul>
 
             <ul class="navbar-nav d-flex gap-3" sec:authorize="isAnonymous()">

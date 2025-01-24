@@ -1,6 +1,7 @@
 package gh.springboot.jpaboard.boundedContext.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    @Qualifier("userRepository")
     private final PasswordEncoder passwordEncoder;
 
     public void createUser(String username, String password, String email, UserRole role) {

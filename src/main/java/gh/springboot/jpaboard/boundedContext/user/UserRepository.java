@@ -9,11 +9,13 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<SiteUser, Long> {
 
-    Optional<SiteUser> findByUsername(String username);
-    Optional<SiteUser> findByEmail(String email);
-
     @Transactional
     @Modifying
     @Query(value = "ALTER TABLE site_user AUTO_INCREMENT = 1", nativeQuery = true)
     void clearIdAutoIncrement();
+
+    Optional<SiteUser> findByUsername(String username);
+
+    Optional<SiteUser> findByEmail(String email);
+
 }

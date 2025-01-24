@@ -1,6 +1,7 @@
 package gh.springboot.jpaboard.boundedContext.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserSecurityService implements UserDetailsService {
 
+    @Qualifier("userRepository")
     private final UserRepository userRepository;
 
     @Override

@@ -1,7 +1,36 @@
 <html layout:decorate="~{layout}">
-    <div class="container" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
-        <div class="text-center">
-            <span class="fs-4">USER LIST</span>
+    <div class="container" style="max-width:1200px;" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
+        <div class="d-flex justify-content-end mb-4">
+            <form style="width:600px;">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="검색어" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
         </div>
+
+        <table class="table">
+            <thead class="table-light">
+                <tr class="text-center">
+                    <th class="fs-7">번호</th>
+                    <th>아이디</th>
+                    <th>비밀번호</th>
+                    <th>이메일</th>
+                    <th>권한</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="text-center" th:each="siteUser : ${siteUserList}">
+                    <td th:text="${siteUser.id}"></td>
+                    <td th:text="${siteUser.username}"></td>
+                    <td th:text="${siteUser.password}"></td>
+                    <td th:text="${siteUser.email}"></td>
+                    <td th:text="${siteUser.role}"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </html>

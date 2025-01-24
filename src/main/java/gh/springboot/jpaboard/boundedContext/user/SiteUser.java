@@ -30,4 +30,8 @@ public class SiteUser {
     @Column(nullable = false)
     private UserRole role;
 
+    public String getMaskedPassword() {
+        return "**********";
+    }
+
 }

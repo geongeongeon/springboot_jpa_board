@@ -23,6 +23,7 @@ public class SecurityConfig {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/user/create").permitAll()
                         .requestMatchers("/user/login").permitAll()
+                        .requestMatchers("/user/edit/**").permitAll()
                         .anyRequest().authenticated())
 
                 .formLogin(formLogin -> formLogin

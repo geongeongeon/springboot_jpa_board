@@ -3,8 +3,8 @@
         <div class="d-flex justify-content-end mb-4">
             <form style="width:600px;">
                 <div class="input-group">
-                    <input class="form-control" type="text" placeholder="검색어" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">
+                    <input class="form-control border-dark" type="text" placeholder="검색어" aria-label="Search">
+                    <button class="btn btn-outline-dark" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
                 </div>
@@ -19,6 +19,7 @@
                     <th>비밀번호</th>
                     <th>이메일</th>
                     <th>권한</th>
+                    <th></th>
                 </tr>
             </thead>
 
@@ -29,6 +30,7 @@
                     <td th:text="${siteUser.password}"></td>
                     <td th:text="${siteUser.email}"></td>
                     <td th:text="${siteUser.role}"></td>
+                    <td><a class="btn btn-link p-0" th:href="@{|/admin/users/modify/${siteUser.id}|}"><i class="bi bi-gear-fill"></i></a></td>
                 </tr>
             </tbody>
         </table>

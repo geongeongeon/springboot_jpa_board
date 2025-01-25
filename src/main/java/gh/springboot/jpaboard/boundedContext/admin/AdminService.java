@@ -40,7 +40,9 @@ public class AdminService {
 
     public void modifyUser(SiteUser siteUser, String password, String email, UserRole role) {
         adminRepository.findByEmail(email).ifPresent(duplicateUser -> {
-            throw new DataIntegrityViolationException("duplicateErrorEmail");
+            if (!email.equals(siteUser.getEmail())) {
+                throw new DataIntegrityViolationException("duplicateErrorEmail");
+            }
         });
 
         boolean isUpdated = false;

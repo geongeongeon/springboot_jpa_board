@@ -7,6 +7,7 @@ import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,8 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 @RequestMapping("/admin")
@@ -31,6 +31,7 @@ public class AdminController {
     @GetMapping("/users")
     public String showUserList(Model model) {
         List<SiteUser> siteUserList =  adminService.getUserList();
+        Collections.reverse(siteUserList);
 
         for (SiteUser siteUser : siteUserList) {
             siteUser.setPassword(siteUser.getMaskedPassword());

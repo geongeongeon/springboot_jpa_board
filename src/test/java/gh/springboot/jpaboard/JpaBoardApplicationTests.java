@@ -12,10 +12,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -71,6 +73,17 @@ class JpaBoardApplicationTests {
 		assertThat(passwordEncoder.matches("1234", findUser.get().getPassword())).isTrue();
 		assertThat(findUser.get().getEmail()).isEqualTo("admin@test.com");
 		assertThat(findUser.get().getRole()).isEqualTo(UserRole.ADMIN);
+	}
+
+	@Test
+	@DisplayName("회원 100명 생성")
+	@Rollback(value = false)
+	void t999() {
+		long countAllUser = userRepository.count();
+
+		IntStream.rangeClosed(1, 100).forEach(id -> userService.createUser("user%d".formatted(id), "1234", "user%d@test.com".formatted(id), UserRole.USER));
+
+		assertThat(userRepository.count()).isEqualTo(countAllUser + 100L);
 	}
 
 }

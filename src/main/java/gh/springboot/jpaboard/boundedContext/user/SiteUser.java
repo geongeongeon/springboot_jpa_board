@@ -42,7 +42,7 @@ public class SiteUser implements UserDetails {
     }
 
     public String getMaskedPassword() {
-        return "**********";
+        return "************";
     }
 
 }

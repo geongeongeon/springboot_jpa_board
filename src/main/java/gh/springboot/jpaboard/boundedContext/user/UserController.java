@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
@@ -28,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public String createUser(@Validated UserDto userDto, BindingResult bindingResult) {
+    public String createUser(@Validated UserDto userDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "user/create";
         }
@@ -41,6 +42,8 @@ public class UserController {
 
         try {
             userService.createUser(userDto.getUsername(), userDto.getPassword1(), userDto.getEmail(), UserRole.USER);
+
+            redirectAttributes.addFlashAttribute("successMsg", "회원가입이 성공했습니다.");
         } catch (DataIntegrityViolationException e) {
             String[] errors = e.getMessage().split("duplicateError");
 
@@ -65,7 +68,7 @@ public class UserController {
             return "user/create";
         }
 
-        return "redirect:/user/login";
+        return "redirect:/user/create";
     }
 
     @GetMapping("/login")

@@ -5,9 +5,6 @@ import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserDto;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import gh.springboot.jpaboard.boundedContext.user.UserRoleValidationGroup;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -60,7 +58,7 @@ public class AdminController {
     }
 
     @PostMapping("/users/modify/{id}")
-    public String modifyUser(@Validated(UserRoleValidationGroup.class) UserDto userDto, BindingResult bindingResult, @PathVariable("id") Long id) {
+    public String modifyUser(@Validated(UserRoleValidationGroup.class) UserDto userDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
             return "user/modify";
         }
@@ -79,6 +77,8 @@ public class AdminController {
             optionalSiteUser.ifPresent(siteUser -> {
                 adminService.modifyUser(siteUser, userDto.getPassword1(), userDto.getEmail(), userRole);
             });
+
+            redirectAttributes.addFlashAttribute("successMsg", "회원 정보가 수정되었습니다.");
         } catch (DataIntegrityViolationException e) {
             userDto.setEmail(userDto.getEmail());
 

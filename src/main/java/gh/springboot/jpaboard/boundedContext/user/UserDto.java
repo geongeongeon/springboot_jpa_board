@@ -11,13 +11,15 @@ import lombok.Setter;
 @Setter
 public class UserDto {
 
-    @Size(min = 5, max = 15, message = "아이디는 5 ~ 15글자 사이로 입력해주세요.")
+    @Size(min = 4, max = 20, message = "")
     @NotBlank(message = "아이디를 입력해주세요.")
     private String username;
 
+    @Size(min = 4, max = 20, message = "")
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password1;
 
+    @Size(min = 4, max = 20, message = "")
     @NotBlank(message = "비밀번호 확인을 입력해주세요.")
     private String password2;
 
@@ -27,5 +29,4 @@ public class UserDto {
 
     @NotNull(message = "권한을 설정해주세요.", groups = UserRoleValidationGroup.class)
     private UserRole role;
-
 }

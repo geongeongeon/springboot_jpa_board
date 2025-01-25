@@ -4,14 +4,13 @@ import gh.springboot.jpaboard.boundedContext.error.DataUnchangedException;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserDto;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
-import gh.springboot.jpaboard.boundedContext.user.UserRoleValidationGroup;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -58,7 +57,7 @@ public class AdminController {
     }
 
     @PostMapping("/users/modify/{id}")
-    public String modifyUser(@Validated(UserRoleValidationGroup.class) UserDto userDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @PathVariable("id") Long id) {
+    public String modifyUser(@Valid UserDto userDto, BindingResult bindingResult, RedirectAttributes redirectAttributes, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
             return "user/modify";
         }

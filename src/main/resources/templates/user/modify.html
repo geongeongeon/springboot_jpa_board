@@ -1,47 +1,50 @@
 <html layout:decorate="~{layout}">
-<div class="container" style="max-width:750px;" layout:fragment="content">
-    <form class="px-5 py-4 border rounded" th:action="@{|/admin/users/modify/${id}|}" th:object="${userDto}" method="POST">
-        <div class="text-center mb-4">
-            <span class="fw-semibold fs-3">회원 정보</span>
-        </div>
+    <div class="container" style="max-width:750px;" layout:fragment="content">
+        <form class="px-5 py-4 border rounded" th:action="@{|/admin/users/modify/${id}|}" th:object="${userDto}" method="POST">
+            <div class="text-center mb-4">
+                <span class="fw-semibold fs-3">회원 정보</span>
+            </div>
 
-        <div th:replace="msg/success"></div>
+            <div th:replace="msg/success"></div>
 
-        <div th:replace="msg/error"></div>
+            <div th:replace="msg/error"></div>
 
-        <div class="input-group mb-3">
-            <label class="input-group-text" style="min-width:150px;">아이디</label>
-            <input class="form-control bg-secondary-subtle" style="pointer-events:none;" th:field="*{username}" type="text" readonly>
-        </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" style="min-width:150px;"
+                       tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="4~20 글자 사이로 입력해주세요.">아이디</label>
+                <input class="form-control bg-secondary-subtle" style="pointer-events:none;" th:field="*{username}" type="text" readonly>
+            </div>
 
-        <div class="input-group mb-3">
-            <label class="input-group-text" style="min-width:150px;">비밀번호</label>
-            <input class="form-control" th:field="*{password1}" type="password">
-        </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" style="min-width:150px;"
+                       tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="4~20 글자 사이로 입력해주세요.">비밀번호</label>
+                <input class="form-control" th:field="*{password1}" type="password">
+            </div>
 
-        <div class="input-group mb-3">
-            <label class="input-group-text" style="min-width:150px;">비밀번호 확인</label>
-            <input class="form-control" th:field="*{password2}" type="password">
-        </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" style="min-width:150px;"
+                       tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="4~20 글자 사이로 입력해주세요.">비밀번호 확인</label>
+                <input class="form-control" th:field="*{password2}" type="password">
+            </div>
 
-        <div class="input-group mb-3">
-            <label class="input-group-text" style="min-width:150px;">이메일</label>
-            <input class="form-control" th:field="*{email}" type="email">
-        </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" style="min-width:150px;">이메일</label>
+                <input class="form-control" th:field="*{email}" type="email">
+            </div>
 
-        <div class="input-group" sec:authorize="hasRole('ADMIN')">
-            <label class="input-group-text" style="min-width:150px;">권한</label>
-            <select class="form-select" th:field="*{role}">
-                <option value="ADMIN">관리자</option>
-                <option value="USER">회원</option>
-            </select>
-        </div>
+            <div class="input-group" sec:authorize="hasRole('ADMIN')">
+                <label class="input-group-text" style="min-width:150px;">권한</label>
+                <select class="form-select" th:field="*{role}">
+                    <option value="ADMIN">관리자</option>
+                    <option value="USER">회원</option>
+                </select>
+            </div>
 
-        <div class="d-flex align-items-center justify-content-center mt-4 gap-3">
-            <button class="btn btn-outline-dark" style="width:100px;" type="submit">변경</button>
+            <div class="d-flex align-items-center justify-content-center mt-4 gap-3">
+                <button class="btn btn-outline-dark" style="width:100px;" type="submit">변경</button>
 
-            <button class="btn btn-outline-dark" style="width:100px;" sec:authorize="hasRole('ADMIN')" type="submit">삭제</button>
-        </div>
-    </form>
-</div>
+                <button class="btn btn-outline-dark" style="width:100px;" sec:authorize="hasRole('ADMIN')" type="submit">삭제</button>
+            </div>
+        </form>
+    </div>
 </html>

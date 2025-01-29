@@ -12,11 +12,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,13 +81,24 @@ public class AdminService {
     }
 
     private void updateSecurityContext(SiteUser siteUser) {
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                siteUser.getUsername(),
-                siteUser.getPassword(),
-                siteUser.getAuthorities()
-        );
+        Authentication currentAuthentication = SecurityContextHolder.getContext().getAuthentication();
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        if (siteUser.getUsername().equals(currentAuthentication.getName())
+                && !siteUser.getAuthorities().equals(currentAuthentication.getAuthorities())) {
+            updateAuthentication(currentAuthentication, siteUser.getAuthorities());
+        } else {
+            updateAuthentication(currentAuthentication, currentAuthentication.getAuthorities());
+        }
     }
 
+    private void updateAuthentication(Authentication currentAuthentication, Collection<? extends GrantedAuthority> authorities) {
+        Authentication updatedAuthentication = new UsernamePasswordAuthenticationToken(
+                currentAuthentication.getPrincipal(),
+                currentAuthentication.getCredentials(),
+                authorities
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(updatedAuthentication);
+    }
+    
 }

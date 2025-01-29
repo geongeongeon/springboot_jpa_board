@@ -100,5 +100,5 @@ public class AdminService {
 
         SecurityContextHolder.getContext().setAuthentication(updatedAuthentication);
     }
-    
+
 }

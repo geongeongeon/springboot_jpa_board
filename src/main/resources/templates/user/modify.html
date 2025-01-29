@@ -43,8 +43,28 @@
             <div class="d-flex align-items-center justify-content-center mt-4 gap-3">
                 <button class="btn btn-outline-dark" style="width:100px;" type="submit">변경</button>
 
-                <button class="btn btn-outline-dark" style="width:100px;" sec:authorize="hasRole('ADMIN')" type="submit">삭제</button>
+                <button class="btn btn-outline-dark" style="width:100px;" sec:authorize="hasRole('ADMIN')" type="button" data-bs-toggle="modal" data-bs-target="#modal_deleteUser">삭제</button>
+            </div>
+
+            <div class="modal fade" id="modal_deleteUser" sec:authorize="hasRole('ADMIN')" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalLabel_deleteUser">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="modalLabel_deleteUser">회원 삭제</h1>
+                            <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            이 회원을 정말 삭제하시겠습니까?<br>삭제한 후에는 다시 복구할 수 없습니다.
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
+                            <button class="btn btn-danger" type="button" onclick="$('#form_deleteUser').submit();">삭제</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </form>
+
+        <form id="form_deleteUser" th:action="@{|/admin/users/delete/${id}|}" method="POST"></form>
     </div>
 </html>

@@ -11,6 +11,8 @@ import lombok.Setter;
 @Setter
 public class UserDto {
 
+    private String id;
+
     @Size(min = 4, max = 20, message = "")
     @NotBlank(message = "아이디를 입력해주세요.")
     private String username;

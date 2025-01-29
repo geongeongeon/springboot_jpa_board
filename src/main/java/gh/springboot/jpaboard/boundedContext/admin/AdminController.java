@@ -95,4 +95,9 @@ public class AdminController {
         return String.format("redirect:/admin/users/modify/%s", id);
     }
 
+    @PostMapping("/users/delete/{id}")
+    private String deleteUser(@PathVariable("id") Long id) {
+        return "redirect:/admin/users";
+    }
+
 }

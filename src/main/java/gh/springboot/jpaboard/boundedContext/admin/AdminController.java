@@ -7,15 +7,12 @@ import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
@@ -29,15 +26,15 @@ public class AdminController {
     private final AdminService adminService;
 
     @GetMapping("/users")
-    public String showUserList(Model model) {
-        List<SiteUser> siteUserList =  adminService.getUserList();
-        Collections.reverse(siteUserList);
+    public String showUserList(Model model, @RequestParam(defaultValue = "0") int page) {
+        Page<SiteUser> siteUserList =  adminService.getUserList(page);
 
         for (SiteUser siteUser : siteUserList) {
             siteUser.setPassword(siteUser.getMaskedPassword());
         }
 
-        model.addAttribute("siteUserList", siteUserList);
+        model.addAttribute("siteUserList", siteUserList.getContent());
+        model.addAttribute("paging", siteUserList);
 
         return "admin/users";
     }

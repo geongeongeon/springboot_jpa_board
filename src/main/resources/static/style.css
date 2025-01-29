@@ -11,7 +11,21 @@ html > body {
 }
 
 .popover-body {
-    font-family: 'GmarketSansMedium';
-    text-underline-position: under;
-    color: blue !important;
+  font-family: 'GmarketSansMedium';
+  text-underline-position: under;
+  color: blue !important;
+}
+
+.pagination a {
+  color: gray;
+}
+
+.page-link:hover {
+  color: black !important;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: black !important;
+  color: white !important;
+  border-color: black !important;
 }

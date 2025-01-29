@@ -3,7 +3,7 @@
         <div class="d-flex justify-content-end mb-4">
             <form style="width:600px;">
                 <div class="input-group">
-                    <input class="form-control border-dark" type="text" placeholder="검색어" aria-label="Search">
+                    <input class="form-control border-dark" type="text" placeholder="검색어">
                     <button class="btn btn-outline-dark" type="submit">
                         <i class="bi bi-search"></i>
                     </button>
@@ -14,7 +14,7 @@
         <table class="table">
             <thead class="table-light">
                 <tr class="text-center">
-                    <th class="fs-7">번호</th>
+                    <th class="fs-6">번호</th>
                     <th>아이디</th>
                     <th>비밀번호</th>
                     <th>이메일</th>
@@ -34,5 +34,7 @@
                 </tr>
             </tbody>
         </table>
+
+        <div th:replace="page"></div>
     </div>
 </html>

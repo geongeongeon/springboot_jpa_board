@@ -6,12 +6,17 @@ import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,8 +29,13 @@ public class AdminService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public List<SiteUser> getUserList() {
-        return adminRepository.findAll();
+    public Page<SiteUser> getUserList(int page) {
+        List<Sort.Order> sortIdDesc = new ArrayList<>();
+        sortIdDesc.add(Sort.Order.desc("id"));
+
+        Pageable pageable = PageRequest.of(page, 10, Sort.by(sortIdDesc));
+
+        return adminRepository.findAll(pageable);
     }
 
     public Optional<SiteUser> getSiteUserById(Long id) {

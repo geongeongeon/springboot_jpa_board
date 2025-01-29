@@ -1,0 +1,13 @@
+<nav>
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:if="${paging.hasPrevious()}">
+            <a class="page-link px-2" th:href="@{|users?page=0|}">&laquo;</a>
+        </li>
+        <li class="page-item" th:each="page : ${#numbers.sequence(0, paging.totalPages - 1)}" th:if="${page > paging.number - 5 and page < paging.number + 5}" th:classappend="${page == paging.number} ? 'active'">
+            <a class="page-link" th:text="${page + 1}" th:href="@{|users?page=${page}|}"></a>
+        </li>
+        <li class="page-item" th:if="${paging.hasNext()}">
+            <a class="page-link px-2" th:href="@{|users?page=${paging.totalPages - 1}|}">&raquo;</a>
+        </li>
+    </ul>
+</nav>

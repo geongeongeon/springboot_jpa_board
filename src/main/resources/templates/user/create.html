@@ -26,8 +26,9 @@
             </div>
 
             <div class="input-group">
-                <label class="input-group-text" style="min-width:150px;">이메일</label>
-                <input class="form-control" th:field="*{email}" type="email">
+                <label class="input-group-text" style="min-width:150px;"
+                       tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="이메일 형식으로 입력해주세요.">이메일</label>
+                <input class="form-control" th:field="*{email}" type="text">
             </div>
 
             <div class="text-center mt-4">

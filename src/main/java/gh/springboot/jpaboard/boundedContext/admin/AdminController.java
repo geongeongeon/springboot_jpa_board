@@ -4,6 +4,7 @@ import gh.springboot.jpaboard.boundedContext.error.DataUnchangedException;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserDto;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -44,7 +45,9 @@ public class AdminController {
     }
 
     @GetMapping("/users/modify/{id}")
-    public String showModifyUserForm(UserDto userDto, @PathVariable("id") Long id, Model model) {
+    public String showModifyUserForm(UserDto userDto, @PathVariable("id") Long id, Model model, HttpServletRequest request) {
+        String currentUrl = request.getRequestURL().toString();
+
         Optional<SiteUser> optionalSiteUser = adminService.getSiteUserById(id);
 
         optionalSiteUser.ifPresent(siteUser -> {
@@ -53,6 +56,7 @@ public class AdminController {
             userDto.setRole(siteUser.getRole());
 
             model.addAttribute("id", id);
+            model.addAttribute("currentUrl", currentUrl);
         });
 
         return "user/modify";

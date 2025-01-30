@@ -6,6 +6,10 @@
                     <a class="nav-link" href="/">홈</a>
                 </li>
 
+                <li class="nav-item" sec:authorize="hasRole('USER')">
+                    <a class="nav-link" href="/user/modify">내정보</a>
+                </li>
+
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link" href="/admin/users">회원관리</a>
                 </li>

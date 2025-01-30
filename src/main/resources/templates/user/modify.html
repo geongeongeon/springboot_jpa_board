@@ -1,6 +1,6 @@
 <html layout:decorate="~{layout}">
     <div class="container" style="max-width:750px;" layout:fragment="content">
-        <form class="px-5 py-4 border rounded" th:action="@{|/admin/users/modify/${id}|}" th:object="${userDto}" method="POST">
+        <form class="px-5 py-4 border rounded" th:action="${currentUrl}" th:object="${userDto}" method="POST">
             <div class="text-center mb-4">
                 <span class="fw-semibold fs-3">회원 정보</span>
             </div>
@@ -29,7 +29,7 @@
 
             <div class="input-group mb-3">
                 <label class="input-group-text" style="min-width:150px;">이메일</label>
-                <input class="form-control" th:field="*{email}" type="email">
+                <input class="form-control" th:field="*{email}" type="text">
             </div>
 
             <div class="input-group" sec:authorize="hasRole('ADMIN')">
@@ -43,7 +43,8 @@
             <div class="d-flex align-items-center justify-content-center mt-4 gap-3">
                 <button class="btn btn-outline-dark" style="width:100px;" type="submit">변경</button>
 
-                <button class="btn btn-outline-dark" style="width:100px;" sec:authorize="hasRole('ADMIN')" type="button" data-bs-toggle="modal" data-bs-target="#modal_deleteUser">삭제</button>
+                <button class="btn btn-outline-dark" style="width:100px;" sec:authorize="hasRole('ADMIN')"
+                        type="button" data-bs-toggle="modal" data-bs-target="#modal_deleteUser">삭제</button>
             </div>
 
             <div class="modal fade" id="modal_deleteUser" sec:authorize="hasRole('ADMIN')" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalLabel_deleteUser">

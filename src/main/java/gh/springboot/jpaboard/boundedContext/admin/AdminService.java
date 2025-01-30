@@ -4,6 +4,8 @@ import gh.springboot.jpaboard.boundedContext.error.DataUnchangedException;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -16,7 +18,10 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.servlet.mvc.condition.RequestConditionHolder;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -26,6 +31,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminService {
 
+    private static final Logger log = LoggerFactory.getLogger(AdminService.class);
     @Qualifier("userRepository")
     private final AdminRepository adminRepository;
 
@@ -78,6 +84,20 @@ public class AdminService {
         } else {
             throw new DataUnchangedException("dataUnchangedError");
         }
+    }
+
+    public String deleteUser(Long id, Principal loginUser) {
+        Optional<SiteUser> optDeleteUser = adminRepository.findById(id);
+
+        if (optDeleteUser.isPresent()) {
+            adminRepository.deleteById(id);
+
+            if (optDeleteUser.get().getUsername().equals(loginUser.getName())) {
+                return "redirect:/user/logout";
+            }
+        }
+
+        return "redirect:/admin/users";
     }
 
     private void updateSecurityContext(SiteUser siteUser) {

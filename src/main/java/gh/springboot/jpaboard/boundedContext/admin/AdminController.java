@@ -45,8 +45,8 @@ public class AdminController {
     }
 
     @GetMapping("/users/modify/{id}")
-    public String showModifyUserForm(UserDto userDto, @PathVariable("id") Long id, Model model, HttpServletRequest request) {
-        String currentUrl = request.getRequestURL().toString();
+    public String showModifyUserForm(UserDto userDto, @PathVariable("id") Long id, Model model) {
+        String currentUrl = "/admin/users/modify/%d".formatted(id);
 
         Optional<SiteUser> optionalSiteUser = adminService.getSiteUserById(id);
 

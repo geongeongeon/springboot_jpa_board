@@ -7,14 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
@@ -26,6 +25,8 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping("/create")
     public String showCreateUserForm(UserDto userDto, Authentication authentication) {
@@ -88,10 +89,36 @@ public class UserController {
         return "user/login";
     }
 
+    @GetMapping("/confirm_password")
+    @PreAuthorize("isAuthenticated()")
+    public String showConfirmPasswordForm(ConfirmPasswordDto confirmPasswordDto) {
+        return "user/confirm_password";
+    }
+
+    @PostMapping("/confirm_password")
+    @PreAuthorize("isAuthenticated()")
+    public String confirmPassword(@Valid ConfirmPasswordDto confirmPasswordDto, BindingResult bindingResult, Principal principal) {
+        Optional<SiteUser> optLoginUser = userService.getSiteUserByUsername(principal.getName());
+
+        if (bindingResult.hasErrors()) {
+            return "user/confirm_password";
+        }
+
+        if (optLoginUser.isPresent()){
+            if (!passwordEncoder.matches(confirmPasswordDto.getPassword(), optLoginUser.get().getPassword())) {
+                bindingResult.rejectValue("password", "mismatchPasswordError", "비밀번호가 일치하지 않습니다.");
+
+                return "user/confirm_password";
+            }
+        }
+
+        return "redirect:/user/modify";
+    }
+
     @GetMapping("/modify")
     @PreAuthorize("isAuthenticated()")
-    public String showModifyUserForm(Principal principal, UserDto userDto, Model model, HttpServletRequest request) {
-        String currentUrl = request.getRequestURL().toString();
+    public String showModifyUserForm(Principal principal, UserDto userDto, Model model) {
+        String currentUrl = "/user/modify";
 
         Optional<SiteUser> optLoginUser = userService.getSiteUserByUsername(principal.getName());
 

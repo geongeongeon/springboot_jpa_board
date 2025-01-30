@@ -26,6 +26,7 @@ public class SecurityConfig {
                         .requestMatchers("/user/create").permitAll()
                         .requestMatchers("/user/login").permitAll()
                         .requestMatchers("/user/modify").permitAll()
+                        .requestMatchers("/user/confirm_password").permitAll()
                         .anyRequest().authenticated())
 
                 .formLogin(formLogin -> formLogin

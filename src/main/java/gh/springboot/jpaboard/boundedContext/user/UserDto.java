@@ -31,4 +31,5 @@ public class UserDto {
 
     @NotNull(message = "권한을 설정해주세요.", groups = UserRoleValidationGroup.class)
     private UserRole role;
+
 }

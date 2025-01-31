@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,10 +22,13 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.file.AccessDeniedException;
+import java.security.Principal;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -125,6 +129,23 @@ class JpaBoardApplicationTests {
 			assertThat(user.getEmail()).isEqualTo("user9999@test.com");
 			assertThat(user.getAuthorities()).isEqualTo(UserRole.ADMIN.getAuthorities());
 		});
+	}
+
+	@Test
+	@DisplayName("관리자 :: 회원 삭제")
+	@WithMockUser(username = "admin", roles = "ADMIN")
+	void t007() {
+		Optional<SiteUser> findUser = adminService.getSiteUserByUsername("start_user1");
+
+		findUser.ifPresent(user -> {
+			Principal loginUser = SecurityContextHolder.getContext().getAuthentication();
+
+			adminService.deleteUser(user.getId(), loginUser);
+		});
+
+		findUser = adminService.getSiteUserByUsername("start_user1");
+
+		assertThat(findUser).isEmpty();
 	}
 
 	@Test

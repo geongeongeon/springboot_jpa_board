@@ -3,7 +3,6 @@ package gh.springboot.jpaboard.boundedContext.base;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,7 @@ public class DevInitData {
 
     @Bean
     @Order(1)
-    CommandLineRunner removeAllPreviousUserData(@Qualifier("userRepository") UserRepository userRepository) {
+    CommandLineRunner removeAllPreviousUserData(UserRepository userRepository) {
         return args -> {
             userRepository.deleteAll();
             userRepository.clearIdAutoIncrement();

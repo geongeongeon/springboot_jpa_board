@@ -1,7 +1,6 @@
 package gh.springboot.jpaboard.boundedContext.user;
 
 import gh.springboot.jpaboard.boundedContext.error.DataUnchangedException;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;

@@ -2,9 +2,9 @@ package gh.springboot.jpaboard.boundedContext.admin;
 
 import gh.springboot.jpaboard.boundedContext.error.DataUnchangedException;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
+import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,8 +27,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AdminService {
 
-    @Qualifier("userRepository")
-    private final AdminRepository adminRepository;
+    private final UserRepository userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -38,19 +37,19 @@ public class AdminService {
 
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sortIdDesc));
 
-        return adminRepository.findAll(pageable);
+        return userRepository.findAll(pageable);
     }
 
     public Optional<SiteUser> getSiteUserById(Long id) {
-        return adminRepository.findById(id);
+        return userRepository.findById(id);
     }
 
     public Optional<SiteUser> getSiteUserByUsername(String username) {
-        return adminRepository.findByUsername(username);
+        return userRepository.findByUsername(username);
     }
 
     public void modifyUser(SiteUser siteUser, String password, String email, UserRole role) {
-        adminRepository.findByEmail(email).ifPresent(duplicateUser -> {
+        userRepository.findByEmail(email).ifPresent(duplicateUser -> {
             if (!email.equals(siteUser.getEmail())) {
                 throw new DataIntegrityViolationException("duplicateErrorEmail");
             }
@@ -74,7 +73,7 @@ public class AdminService {
         }
 
         if (isUpdated) {
-            adminRepository.save(siteUser);
+            userRepository.save(siteUser);
             updateSecurityContext(siteUser);
         } else {
             throw new DataUnchangedException("dataUnchangedError");
@@ -82,10 +81,10 @@ public class AdminService {
     }
 
     public String deleteUser(Long id, Principal loginUser) {
-        Optional<SiteUser> optDeleteUser = adminRepository.findById(id);
+        Optional<SiteUser> optDeleteUser = userRepository.findById(id);
 
         if (optDeleteUser.isPresent()) {
-            adminRepository.deleteById(id);
+            userRepository.deleteById(id);
 
             if (optDeleteUser.get().getUsername().equals(loginUser.getName())) {
                 return "redirect:/user/logout";

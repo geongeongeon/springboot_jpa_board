@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<SiteUser, Long> {
+public interface UserRepository extends JpaRepository<SiteUser, Long>, UserRepositoryCustom {
 
     @Transactional
     @Modifying

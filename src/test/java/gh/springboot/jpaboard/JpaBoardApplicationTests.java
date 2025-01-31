@@ -1,6 +1,5 @@
 package gh.springboot.jpaboard;
 
-import gh.springboot.jpaboard.boundedContext.admin.AdminRepository;
 import gh.springboot.jpaboard.boundedContext.admin.AdminService;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
@@ -24,6 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -45,9 +45,6 @@ class JpaBoardApplicationTests {
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	private AdminRepository adminRepository;
 
 	@Autowired
 	private AdminService adminService;
@@ -193,6 +190,17 @@ class JpaBoardApplicationTests {
 			mockMvc.perform(post(url))
 					.andExpect(status().is3xxRedirection());
 		}
+	}
+
+	@Test
+	@DisplayName("검색어를 포함하는 회원 목록 조회")
+	void t010() {
+		List<SiteUser> users = userRepository.searchUsersByUsernameOrEmail("start_user");
+
+		assertThat(users.size()).isEqualTo(2);
+
+		assertThat(users.get(0).getUsername()).isEqualTo("start_user1");
+		assertThat(users.get(1).getUsername()).isEqualTo("start_user2");
 	}
 
 	@Test

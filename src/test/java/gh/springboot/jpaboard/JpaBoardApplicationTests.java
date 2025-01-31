@@ -9,10 +9,10 @@ import gh.springboot.jpaboard.boundedContext.user.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,6 +20,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
@@ -28,10 +29,15 @@ import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ActiveProfiles("test")
 @Transactional
+@AutoConfigureMockMvc
 class JpaBoardApplicationTests {
 
 	@Autowired
@@ -46,14 +52,25 @@ class JpaBoardApplicationTests {
 	@Autowired
 	private AdminService adminService;
 
+	@Autowired
+	private MockMvc mockMvc;
+
 	PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+	private final String[] adminGetUrls = {
+			"/admin/users", "/admin/users/modify/1"
+	};
+
+	private final String[] adminPostUrls = {
+			"/admin/users/modify/1", "/admin/users/delete/1"
+	};
 
 	@Test
 	@DisplayName("회원 1명 생성")
 	void t001() {
 		long countAllUser = userRepository.count();
 
-		userService.createUser("user1", "1234", "user1@test.com", UserRole.USER);
+		userService.createUser("user9999", "9999", "user9999@test.com", UserRole.USER);
 
 		assertThat(userRepository.count()).isEqualTo(countAllUser + 1L);
 	}
@@ -147,12 +164,35 @@ class JpaBoardApplicationTests {
 	}
 
 	@Test
-	@DisplayName("회원 :: 관리자 기능 사용 시 권한 부족")
-	@WithMockUser(username = "admin", roles = "USER")
-	void t008() {
-		assertThrows(AuthorizationDeniedException.class , () -> {
-			adminService.getSiteUserByUsername("start_user1");
-		});
+	@DisplayName("회원 :: 관리자 페이지 접근 실패")
+	@WithMockUser(username = "user", roles = "USER")
+	void t008() throws Exception {
+		for (String url : adminGetUrls) {
+			mockMvc.perform(get(url))
+					.andExpect(status().is3xxRedirection())
+					.andExpect(redirectedUrl("/"));
+		}
+
+		for (String url : adminPostUrls) {
+			mockMvc.perform(post(url))
+					.andExpect(status().is3xxRedirection())
+					.andExpect(redirectedUrl("/"));
+		}
+	}
+
+	@Test
+	@DisplayName("관리자 :: 관리자 페이지 접근 성공")
+	@WithMockUser(username = "admin", roles = "ADMIN")
+	void t009() throws Exception {
+		for (String url : adminGetUrls) {
+			mockMvc.perform(get(url))
+					.andExpect(status().isOk());
+		}
+
+		for (String url : adminPostUrls) {
+			mockMvc.perform(post(url))
+					.andExpect(status().is3xxRedirection());
+		}
 	}
 
 	@Test

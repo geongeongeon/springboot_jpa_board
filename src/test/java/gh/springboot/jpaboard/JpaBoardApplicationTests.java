@@ -22,13 +22,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.nio.file.AccessDeniedException;
 import java.security.Principal;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -146,6 +144,15 @@ class JpaBoardApplicationTests {
 		findUser = adminService.getSiteUserByUsername("start_user1");
 
 		assertThat(findUser).isEmpty();
+	}
+
+	@Test
+	@DisplayName("회원 :: 관리자 기능 사용 시 권한 부족")
+	@WithMockUser(username = "admin", roles = "USER")
+	void t008() {
+		assertThrows(AuthorizationDeniedException.class , () -> {
+			adminService.getSiteUserByUsername("start_user1");
+		});
 	}
 
 	@Test

@@ -1,4 +1,4 @@
-package gh.springboot.jpaboard.boundedContext.base;
+package gh.springboot.jpaboard.base;
 
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;

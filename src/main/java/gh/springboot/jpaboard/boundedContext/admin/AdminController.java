@@ -27,15 +27,14 @@ public class AdminController {
     private final AdminService adminService;
 
     @GetMapping("/users")
-    public String showUserList(Model model, @RequestParam(defaultValue = "0") int page) {
-        Page<SiteUser> siteUserList =  adminService.getUserList(page);
+    public String showUserList(Model model, @RequestParam(defaultValue = "0") int page, String kw) {
+        Page<SiteUser> pagedUsers =  adminService.getUserList(page, kw);
 
-        for (SiteUser siteUser : siteUserList) {
+        for (SiteUser siteUser : pagedUsers) {
             siteUser.setPassword(siteUser.getMaskedPassword());
         }
 
-        model.addAttribute("siteUserList", siteUserList.getContent());
-        model.addAttribute("paging", siteUserList);
+        model.addAttribute("pagedUsers", pagedUsers);
 
         return "admin/users";
     }

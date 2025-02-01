@@ -3,6 +3,7 @@ package gh.springboot.jpaboard.boundedContext.admin;
 import gh.springboot.jpaboard.boundedContext.error.DataUnchangedException;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
+import gh.springboot.jpaboard.boundedContext.user.UserRepositoryImpl;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -31,13 +32,17 @@ public class AdminService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public Page<SiteUser> getUserList(int page) {
+    public Page<SiteUser> getUserList(int page, String kw) {
         List<Sort.Order> sortIdDesc = new ArrayList<>();
         sortIdDesc.add(Sort.Order.desc("id"));
 
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sortIdDesc));
 
-        return userRepository.findAll(pageable);
+        if (kw == null || kw.trim().isEmpty()) {
+            return userRepository.findAll(pageable);
+        }
+
+        return userRepository.searchUsersByUsernameOrEmail(kw, pageable);
     }
 
     public Optional<SiteUser> getSiteUserById(Long id) {

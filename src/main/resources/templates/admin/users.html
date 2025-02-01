@@ -1,12 +1,10 @@
 <html layout:decorate="~{layout}">
     <div class="container" style="max-width:1200px;" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
         <div class="d-flex justify-content-end mb-4">
-            <form style="width:600px;">
+            <form style="width:600px;" method="GET">
                 <div class="input-group">
-                    <input class="form-control border-dark" type="text" placeholder="검색어">
-                    <button class="btn btn-outline-dark" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
+                    <input class="form-control border-dark" name="kw" type="text" placeholder="검색어" th:value="${param.kw}">
+                    <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
                 </div>
             </form>
         </div>
@@ -24,7 +22,7 @@
             </thead>
 
             <tbody>
-                <tr class="text-center" th:each="siteUser : ${siteUserList}">
+                <tr class="text-center" th:each="siteUser : ${pagedUsers.content}">
                     <td th:text="${siteUser.id}"></td>
                     <td th:text="${siteUser.username}"></td>
                     <td th:text="${siteUser.password}"></td>

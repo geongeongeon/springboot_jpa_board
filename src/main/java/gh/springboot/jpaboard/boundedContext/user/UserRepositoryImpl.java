@@ -1,7 +1,11 @@
 package gh.springboot.jpaboard.boundedContext.user;
 
+import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -19,6 +23,20 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .where(siteUser.username.contains(kw)
                         .or(siteUser.email.contains(kw)))
                 .fetch();
+    }
+
+    @Override
+    public Page<SiteUser> searchUsersByUsernameOrEmail(String kw, Pageable pageable) {
+        QueryResults<SiteUser> searchedResult = jpaQueryFactory
+                .selectFrom(siteUser)
+                .where(siteUser.username.contains(kw)
+                        .or(siteUser.email.contains(kw)))
+                .orderBy(siteUser.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchResults();
+
+        return new PageImpl<>(searchedResult.getResults(), pageable, searchedResult.getTotal());
     }
 
 }

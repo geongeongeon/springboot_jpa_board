@@ -21,6 +21,7 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/style.css").permitAll()
+                        .requestMatchers("/homeImg.jpg").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/user/create").permitAll()

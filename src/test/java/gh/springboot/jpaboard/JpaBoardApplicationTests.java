@@ -11,6 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
@@ -201,6 +206,24 @@ class JpaBoardApplicationTests {
 
 		assertThat(users.get(0).getUsername()).isEqualTo("start_user1");
 		assertThat(users.get(1).getUsername()).isEqualTo("start_user2");
+	}
+
+	@Test
+	@DisplayName("검색어를 포함하는 페이징된 회원 목록 조회")
+	void t011() {
+		List<Sort.Order> sortIdDesc = new ArrayList<>();
+		sortIdDesc.add(Sort.Order.desc("id"));
+
+		Pageable pageable = PageRequest.of(0, 10, Sort.by(sortIdDesc));
+
+		Page<SiteUser> pagedUsers = userRepository.searchUsersByUsernameOrEmail("start_user", pageable);
+
+		assertThat(pagedUsers.getNumber()).isEqualTo(0);
+		assertThat(pagedUsers.getTotalPages()).isEqualTo(1);
+
+		assertThat(pagedUsers.getContent().size()).isEqualTo(2);
+		assertThat(pagedUsers.getContent().get(0).getUsername()).isEqualTo("start_user2");
+		assertThat(pagedUsers.getContent().get(1).getUsername()).isEqualTo("start_user1");
 	}
 
 	@Test

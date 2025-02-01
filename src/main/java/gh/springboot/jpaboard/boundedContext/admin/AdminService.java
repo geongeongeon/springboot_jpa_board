@@ -3,7 +3,6 @@ package gh.springboot.jpaboard.boundedContext.admin;
 import gh.springboot.jpaboard.boundedContext.error.DataUnchangedException;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
-import gh.springboot.jpaboard.boundedContext.user.UserRepositoryImpl;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;

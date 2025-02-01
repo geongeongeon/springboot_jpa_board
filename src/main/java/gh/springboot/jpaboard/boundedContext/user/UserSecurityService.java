@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserSecurityService implements UserDetailsService {
 
-    @Qualifier("userRepository")
     private final UserRepository userRepository;
 
     @Override

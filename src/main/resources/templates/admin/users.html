@@ -1,9 +1,9 @@
-<html layout:decorate="~{layout}">
+<html layout:decorate="~{layout/layout}">
     <div class="container" style="max-width:1200px;" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
         <div class="d-flex justify-content-end mb-4">
             <form style="width:600px;" method="GET">
                 <div class="input-group">
-                    <input class="form-control border-dark" name="kw" type="text" placeholder="검색어" th:value="${param.kw}">
+                    <input class="form-control border-dark" th:value="${param.kw}" name="kw" type="text" placeholder="검색어" >
                     <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
                 </div>
             </form>
@@ -33,6 +33,19 @@
             </tbody>
         </table>
 
-        <div th:replace="page"></div>
+        <nav th:if="${!pagedUsers.isEmpty}" th:with="queryStrBase = 'users?kw=' + ${param.kw != null ? param.kw : ''}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:if="${pagedUsers.hasPrevious()}">
+                    <a class="page-link px-2" th:href="@{|${queryStrBase}&page=0|}">&laquo;</a>
+                </li>
+                <li class="page-item" th:each="page : ${#numbers.sequence(0, pagedUsers.totalPages - 1)}"
+                    th:if="${page > pagedUsers.number - 3 and page < pagedUsers.number + 3}" th:classappend="${page == pagedUsers.number} ? 'active'">
+                    <a class="page-link" th:text="${page + 1}" th:href="@{|${queryStrBase}&page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:if="${pagedUsers.hasNext()}">
+                    <a class="page-link px-2" th:href="@{|${queryStrBase}&page=${pagedUsers.totalPages - 1}|}">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </html>

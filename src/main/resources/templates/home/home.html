@@ -1,0 +1,17 @@
+<html layout:decorate="~{layout/layout}">
+    <div class="container" layout:fragment="content">
+        <div class="text-center mx-auto" style="width:1000px; height:50px; line-height:75px; background-color:#2D2D2D;" sec:authorize="isAuthenticated()">
+            <span class="text-white fs-5" th:text="${#authentication.name} + ' 님 안녕하세요!'"></span>
+        </div>
+
+        <div class="text-center mx-auto" style="width:1000px; height:50px; line-height:75px; background-color:#2D2D2D;" sec:authorize="isAnonymous()">
+            <span class="text-white fs-5">로그인 후 이용해주세요!</span>
+        </div>
+
+        <div class="text-center">
+            <img src="/homeImg.jpg">
+        </div>
+
+        <div class="mx-auto" style="width:1000px; height:50px; background-color:#2D2D2D;"></div>
+    </div>
+</html>

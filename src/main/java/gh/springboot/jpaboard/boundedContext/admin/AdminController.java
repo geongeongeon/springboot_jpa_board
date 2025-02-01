@@ -28,7 +28,7 @@ public class AdminController {
 
     @GetMapping("/users")
     public String showUserList(Model model, @RequestParam(defaultValue = "0") int page, String kw) {
-        Page<SiteUser> pagedUsers =  adminService.getUserList(page, kw);
+        Page<SiteUser> pagedUsers = adminService.getUserList(page, kw);
 
         for (SiteUser siteUser : pagedUsers) {
             siteUser.setPassword(siteUser.getMaskedPassword());

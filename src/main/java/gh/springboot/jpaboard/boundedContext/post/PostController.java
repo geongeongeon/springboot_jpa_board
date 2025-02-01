@@ -14,7 +14,14 @@ public class PostController {
 
     @GetMapping("/list")
     public String showPostList() {
+
         return "post/list";
+    }
+
+    @GetMapping("/write")
+    public String showWritePostForm() {
+
+        return "post/write";
     }
 
 }

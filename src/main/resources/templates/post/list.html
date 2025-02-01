@@ -1,5 +1,29 @@
-<html layout:decorate="~{layout}">
+<html layout:decorate="~{layout/layout}">
     <div class="container" style="max-width:1200px;" layout:fragment="content">
-        <h1>포스트 리스트</h1>
+        <div class="row mx-3">
+            <div class="col-1"></div>
+
+            <div class="col-2">
+                <select class="form-select border-dark ">
+                    <option value="idDesc" selected>최신순</option>
+                    <option value="hitCountDesc">조회순</option>
+                </select>
+            </div>
+
+            <div class="col-6">
+                <form class="d-flex justify-content-end" method="GET" >
+                    <div class="input-group">
+                        <input class="form-control border-dark" th:value="${param.kw}" name="kw" type="text" placeholder="검색어" >
+                        <button class="btn btn-outline-dark" type="submit"><i class="bi bi-search"></i></button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="col-2">
+                <a class="btn btn-outline-dark" href="/post/write">게시글작성</a>
+            </div>
+
+            <div class="col-1"></div>
+        </div>
     </div>
 </html>

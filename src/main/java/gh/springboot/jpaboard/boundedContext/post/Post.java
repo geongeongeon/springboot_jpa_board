@@ -23,6 +23,8 @@ public class Post {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    private Long hitCount = 0L;
+
     private LocalDateTime createDate;
 
     private LocalDateTime modifyDate;

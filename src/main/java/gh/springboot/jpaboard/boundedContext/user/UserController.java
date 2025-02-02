@@ -4,7 +4,6 @@ import gh.springboot.jpaboard.boundedContext.error.DataUnchangedException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,11 +27,7 @@ public class UserController {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @GetMapping("/create")
-    public String showCreateUserForm(UserDto userDto, Authentication authentication) {
-        if (authentication != null && authentication.isAuthenticated()) {
-            return "redirect:/";
-        }
-
+    public String showCreateUserForm(UserDto userDto) {
         return "user/create";
     }
 
@@ -89,13 +84,11 @@ public class UserController {
     }
 
     @GetMapping("/confirm_password")
-    @PreAuthorize("isAuthenticated()")
     public String showConfirmPasswordForm(ConfirmPasswordDto confirmPasswordDto) {
         return "user/confirm_password";
     }
 
     @PostMapping("/confirm_password")
-    @PreAuthorize("isAuthenticated()")
     public String confirmPassword(@Valid ConfirmPasswordDto confirmPasswordDto, BindingResult bindingResult, Principal principal) {
         Optional<SiteUser> optLoginUser = userService.getSiteUserByUsername(principal.getName());
 
@@ -115,7 +108,6 @@ public class UserController {
     }
 
     @GetMapping("/modify")
-    @PreAuthorize("isAuthenticated()")
     public String showModifyUserForm(Principal principal, UserDto userDto, Model model) {
         String currentUrl = "/user/modify";
 
@@ -132,7 +124,6 @@ public class UserController {
     }
 
     @PostMapping("/modify")
-    @PreAuthorize("isAuthenticated()")
     public String modifyUser(@Validated UserDto userDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "user/modify";

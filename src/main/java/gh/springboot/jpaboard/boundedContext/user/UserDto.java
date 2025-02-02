@@ -13,19 +13,16 @@ public class UserDto {
 
     private String id;
 
-    @Size(min = 4, max = 20, message = "")
     @NotBlank(message = "아이디를 입력해주세요.")
     private String username;
 
-    @Size(min = 4, max = 20, message = "")
     @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password1;
 
-    @Size(min = 4, max = 20, message = "")
     @NotBlank(message = "비밀번호 확인을 입력해주세요.")
     private String password2;
 
-    @Email(message = "이메일을 입력해주세요.")
+    @Email(message = "이메일을 형식에 맞게 입력해주세요.")
     @NotBlank(message = "이메일을 입력해주세요.")
     private String email;
 

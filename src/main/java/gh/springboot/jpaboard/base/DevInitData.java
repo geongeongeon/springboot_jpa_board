@@ -16,6 +16,15 @@ public class DevInitData {
 
     @Bean
     @Order(1)
+    CommandLineRunner removeAllPreviousPostData(PostRepository postRepository) {
+        return args -> {
+            postRepository.deleteAll();
+            postRepository.clearIdAutoIncrement();
+        };
+    }
+
+    @Bean
+    @Order(2)
     CommandLineRunner removeAllPreviousUserData(UserRepository userRepository) {
         return args -> {
             userRepository.deleteAll();
@@ -24,7 +33,7 @@ public class DevInitData {
     }
 
     @Bean
-    @Order(2)
+    @Order(3)
     CommandLineRunner createStartUserData(UserService userService) {
         return args -> {
             userService.createUser("admin", "1234", "admin@test.com", UserRole.ADMIN);
@@ -34,13 +43,6 @@ public class DevInitData {
         };
     }
 
-    @Bean
-    @Order(3)
-    CommandLineRunner removeAllPreviousPostData(PostRepository postRepository) {
-        return args -> {
-            postRepository.deleteAll();
-            postRepository.clearIdAutoIncrement();
-        };
-    }
+
 
 }

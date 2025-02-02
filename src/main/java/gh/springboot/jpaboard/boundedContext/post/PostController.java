@@ -4,7 +4,6 @@ import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +24,8 @@ public class PostController {
 
     @GetMapping("/list")
     public String showPostList() {
+
+
         return "post/list";
     }
 
@@ -36,6 +37,12 @@ public class PostController {
     @PostMapping("/write")
     public String writePost(@Valid PostDto postDto, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
+            return "post/write";
+        }
+
+        if (postDto.getTitle().length() > 50) {
+            bindingResult.rejectValue("title", "titleLengthError", "제목을 50글자 이하로 입력해주세요.");
+
             return "post/write";
         }
 

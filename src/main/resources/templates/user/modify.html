@@ -10,8 +10,7 @@
             <div th:replace="msg/error"></div>
 
             <div class="input-group mb-3">
-                <label class="input-group-text" style="min-width:150px;"
-                       tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="4~20 글자 사이로 입력해주세요.">아이디</label>
+                <label class="input-group-text" style="min-width:150px;">아이디</label>
                 <input class="form-control bg-secondary-subtle" style="pointer-events:none;" th:field="*{username}" type="text" readonly>
             </div>
 
@@ -28,7 +27,8 @@
             </div>
 
             <div class="input-group mb-3">
-                <label class="input-group-text" style="min-width:150px;">이메일</label>
+                <label class="input-group-text" style="min-width:150px;"
+                       tabindex="0" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="이메일 형식으로 입력해주세요.">이메일</label>
                 <input class="form-control" th:field="*{email}" type="text">
             </div>
 

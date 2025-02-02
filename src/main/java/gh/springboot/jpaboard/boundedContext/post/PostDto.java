@@ -13,7 +13,6 @@ public class PostDto {
 
     private Long id;
 
-    @Size(max = 30, message = "")
     @NotBlank(message = "제목을 입력해주세요.")
     private String title;
 

@@ -37,6 +37,19 @@ public class UserController {
             return "user/create";
         }
 
+        if (userDto.getUsername().length() < 4 || userDto.getUsername().length() > 20) {
+            bindingResult.rejectValue("username", "usernameLengthError", "아이디를 4~20글자 사이로 입력해주세요.");
+
+            return "user/create";
+        }
+
+        if (userDto.getPassword1().length() < 4 || userDto.getPassword1().length() > 20
+                || userDto.getPassword2().length() < 4 || userDto.getPassword2().length() > 20) {
+            bindingResult.rejectValue("username", "usernameLengthError", "비밀번호를 4~20글자 사이로 입력해주세요.");
+
+            return "user/create";
+        }
+
         if (!userDto.getPassword1().equals(userDto.getPassword2())) {
             bindingResult.rejectValue("password2", "mismatchPasswordError", "비밀번호와 비밀번호 확인이 서로 일치하지 않습니다.");
 
@@ -126,6 +139,13 @@ public class UserController {
     @PostMapping("/modify")
     public String modifyUser(@Validated UserDto userDto, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
+            return "user/modify";
+        }
+
+        if (userDto.getPassword1().length() < 4 || userDto.getPassword1().length() > 20
+                || userDto.getPassword2().length() < 4 || userDto.getPassword2().length() > 20) {
+            bindingResult.rejectValue("username", "usernameLengthError", "비밀번호를 4~20글자 사이로 입력해주세요.");
+
             return "user/modify";
         }
 

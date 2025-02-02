@@ -1,5 +1,20 @@
 <html layout:decorate="~{layout/layout}">
     <div class="container" style="width:1200px;" layout:fragment="content">
-        <h1>게시글 작성</h1>
+        <form action="" method="POST">
+            <div class="input-group mb-3">
+                <label class="input-group-text" style="min-width:100px; border-radius:0;">제목</label>
+                <input class="form-control" style="border-radius:0;" type="text">
+            </div>
+
+            <textarea id="editor" class="overflow-auto" style="height:500px;" name="content" placeholder="내용을 입력하세요."></textarea>
+
+            <div class="text-center mt-4">
+                <button class="btn btn-outline-dark" style="width:100px;" type="submit">작성</button>
+            </div>
+        </form>
+
+        <script src="https://cdn.ckeditor.com/ckeditor5/44.1.0/ckeditor5.umd.js" crossorigin></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/44.1.0/translations/ko.umd.js" crossorigin></script>
+        <script src="/write.js"></script>
     </div>
 </html>

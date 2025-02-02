@@ -42,4 +42,5 @@ public class PostService {
 
         return postRepository.searchPostsByTitleOrContent(kw, pageable);
     }
+
 }

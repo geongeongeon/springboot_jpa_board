@@ -9,7 +9,7 @@
             </form>
         </div>
 
-        <table class="table">
+        <table class="table mb-4">
             <thead class="table-light">
                 <tr class="text-center">
                     <th class="fs-6">번호</th>
@@ -22,7 +22,7 @@
             </thead>
 
             <tbody>
-                <tr class="text-center" th:each="siteUser : ${pagedUsers.content}">
+                <tr class="text-center align-middle" th:each="siteUser : ${pagedUsers.content}">
                     <td th:text="${siteUser.id}"></td>
                     <td th:text="${siteUser.username}"></td>
                     <td th:text="${siteUser.password}"></td>

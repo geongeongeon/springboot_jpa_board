@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Controller
@@ -29,6 +31,7 @@ public class PostController {
     @GetMapping("/list")
     public String showPostList(Model model, @RequestParam(defaultValue = "0") int page, String kw) {
         Page<Post> pagedPosts = postService.getPostList(page, kw);
+
         model.addAttribute("pagedPosts", pagedPosts);
 
         return "post/list";

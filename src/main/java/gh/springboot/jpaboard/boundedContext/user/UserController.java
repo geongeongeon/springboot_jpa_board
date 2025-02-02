@@ -37,8 +37,8 @@ public class UserController {
             return "user/create";
         }
 
-        if (userDto.getUsername().length() < 4 || userDto.getUsername().length() > 20) {
-            bindingResult.rejectValue("username", "usernameLengthError", "아이디를 4~20글자 사이로 입력해주세요.");
+        if (userDto.getUsername().length() < 5 || userDto.getUsername().length() > 15) {
+            bindingResult.rejectValue("username", "usernameLengthError", "아이디를 5~15글자 사이로 입력해주세요.");
 
             return "user/create";
         }

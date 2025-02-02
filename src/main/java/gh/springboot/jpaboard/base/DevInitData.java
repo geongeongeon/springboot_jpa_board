@@ -1,6 +1,8 @@
 package gh.springboot.jpaboard.base;
 
 import gh.springboot.jpaboard.boundedContext.post.PostRepository;
+import gh.springboot.jpaboard.boundedContext.post.PostService;
+import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
@@ -9,6 +11,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+
+import java.util.Optional;
 
 @Configuration
 @Profile("dev & !test")
@@ -43,6 +47,19 @@ public class DevInitData {
         };
     }
 
+    @Bean
+    @Order(4)
+    CommandLineRunner createStartPostData(UserService userService, PostService postService) {
+        return args -> {
+            Optional<SiteUser> admin = userService.getSiteUserByUsername("admin");
+            admin.ifPresent(user -> postService.writePost(user,"게시글 제목 1", "게시글 내용 1"));
 
+            Optional<SiteUser> start_user1 = userService.getSiteUserByUsername("start_user1");
+            start_user1.ifPresent(user -> postService.writePost(user,"게시글 제목 2", "게시글 내용 2"));
+
+            Optional<SiteUser> start_user2 = userService.getSiteUserByUsername("start_user2");
+            start_user2.ifPresent(user -> postService.writePost(user,"게시글 제목 3", "게시글 내용 3"));
+        };
+    }
 
 }

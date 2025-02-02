@@ -48,8 +48,8 @@ public class PostController {
             return "post/write";
         }
 
-        if (postDto.getTitle().length() > 50) {
-            bindingResult.rejectValue("title", "titleLengthError", "제목을 50글자 이하로 입력해주세요.");
+        if (postDto.getTitle().length() > 100) {
+            bindingResult.rejectValue("title", "titleLengthError", "제목을 100글자 이하로 입력해주세요.");
 
             return "post/write";
         }

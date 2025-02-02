@@ -1,27 +1,51 @@
 package gh.springboot.jpaboard.boundedContext.post;
 
+import gh.springboot.jpaboard.boundedContext.user.SiteUser;
+import gh.springboot.jpaboard.boundedContext.user.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/post")
 @RequiredArgsConstructor
 public class PostController {
 
+    private final UserService userService;
+
     private final PostService postService;
 
     @GetMapping("/list")
     public String showPostList() {
-
         return "post/list";
     }
 
     @GetMapping("/write")
-    public String showWritePostForm() {
-
+    public String showWritePostForm(PostDto postDto) {
         return "post/write";
+    }
+
+    @PostMapping("/write")
+    public String writePost(@Valid PostDto postDto, BindingResult bindingResult, Principal principal) {
+        if (bindingResult.hasErrors()) {
+            return "post/write";
+        }
+
+        Optional<SiteUser> writeUser = userService.getSiteUserByUsername(principal.getName());
+
+        writeUser.ifPresent(user -> {
+            postService.writePost(user, postDto.getTitle(), postDto.getContent());
+        });
+
+        return "redirect:/post/list";
     }
 
 }

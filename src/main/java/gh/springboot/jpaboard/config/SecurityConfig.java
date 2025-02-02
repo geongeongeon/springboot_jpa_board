@@ -21,15 +21,15 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/style.css").permitAll()
-                        .requestMatchers("/homeImg.jpg").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/img/homeImg.jpg").permitAll()
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/user/create").permitAll()
-                        .requestMatchers("/user/login").permitAll()
-                        .requestMatchers("/user/modify").permitAll()
-                        .requestMatchers("/user/confirm_password").permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/user/create").anonymous()
+                        .requestMatchers("/user/login").anonymous()
+                        .requestMatchers("/user/modify").authenticated()
+                        .requestMatchers("/user/confirm_password").authenticated()
                         .requestMatchers("/post/list").permitAll()
-                        .requestMatchers("/post/write").permitAll()
+                        .requestMatchers("/post/write").authenticated()
                         .anyRequest().authenticated())
 
                 .formLogin(formLogin -> formLogin

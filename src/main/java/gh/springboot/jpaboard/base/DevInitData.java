@@ -1,5 +1,6 @@
 package gh.springboot.jpaboard.base;
 
+import gh.springboot.jpaboard.boundedContext.post.PostRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
@@ -30,6 +31,15 @@ public class DevInitData {
 
             userService.createUser("start_user1", "1234", "start_user1@test.com", UserRole.USER);
             userService.createUser("start_user2", "1234", "start_user2@test.com", UserRole.USER);
+        };
+    }
+
+    @Bean
+    @Order(3)
+    CommandLineRunner removeAllPreviousPostData(PostRepository postRepository) {
+        return args -> {
+            postRepository.deleteAll();
+            postRepository.clearIdAutoIncrement();
         };
     }
 

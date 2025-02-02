@@ -31,5 +31,9 @@ html > body {
 }
 
 .ck-editor__editable {
-  height: 500px;
+  height: 450px;
+}
+
+.ck-editor__nested-editable {
+  height: 50px;
 }

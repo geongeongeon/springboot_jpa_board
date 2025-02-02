@@ -1,6 +1,6 @@
 <html layout:decorate="~{layout/layout}">
     <div class="container" style="max-width:1200px;" layout:fragment="content">
-        <div class="row mx-3">
+        <div class="row mx-3 mb-4">
             <div class="col-1"></div>
 
             <div class="col-2">
@@ -25,5 +25,43 @@
 
             <div class="col-1"></div>
         </div>
+
+        <table class="table">
+            <thead class="table-light">
+                <tr class="text-center">
+                    <th class="fs-6">번호</th>
+                    <th style="width:50%">제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr class="text-center" th:each="post : ${pagedPosts.content}">
+                    <td th:text="${post.id}"></td>
+                    <td th:text="${post.title}"></td>
+                    <td th:text="${post.author.username}"></td>
+                    <td th:text="${post.createDate}"></td>
+                    <td th:text="${post.hitCount}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <nav th:if="${!pagedPosts.isEmpty}" th:with="queryStrBase = 'users?kw=' + ${param.kw != null ? param.kw : ''}">
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:if="${pagedPosts.hasPrevious()}">
+                    <a class="page-link px-2" th:href="@{|${queryStrBase}&page=0|}">&laquo;</a>
+                </li>
+                <li class="page-item" th:each="page : ${#numbers.sequence(0, pagedPosts.totalPages - 1)}"
+                    th:if="${page > pagedPosts.number - 3 and page < pagedPosts.number + 3}" th:classappend="${page == pagedPosts.number} ? 'active'">
+                    <a class="page-link" th:text="${page + 1}" th:href="@{|${queryStrBase}&page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:if="${pagedPosts.hasNext()}">
+                    <a class="page-link px-2" th:href="@{|${queryStrBase}&page=${pagedPosts.totalPages - 1}|}">&raquo;</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </html>

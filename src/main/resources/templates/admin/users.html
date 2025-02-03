@@ -1,4 +1,4 @@
-<html layout:decorate="~{layout/layout}">
+<html layout:decorate="~{common/layout}">
     <div class="container" style="max-width:1200px;" layout:fragment="content" sec:authorize="hasRole('ADMIN')">
         <div class="d-flex justify-content-end mb-4">
             <form style="width:600px;" method="GET">
@@ -9,7 +9,7 @@
             </form>
         </div>
 
-        <table class="table mb-4">
+        <table class="table table-hover mb-4">
             <thead class="table-light">
                 <tr class="text-center">
                     <th class="fs-6">번호</th>
@@ -23,11 +23,11 @@
 
             <tbody>
                 <tr class="text-center align-middle" th:each="siteUser : ${pagedUsers.content}">
-                    <td th:text="${siteUser.id}"></td>
-                    <td th:text="${siteUser.username}"></td>
-                    <td th:text="${siteUser.password}"></td>
-                    <td th:text="${siteUser.email}"></td>
-                    <td th:text="${siteUser.role}"></td>
+                    <td class="text-dark" th:text="${siteUser.id}"></td>
+                    <td class="text-dark" th:text="${siteUser.username}"></td>
+                    <td class="text-dark" th:text="${siteUser.password}"></td>
+                    <td class="text-dark" th:text="${siteUser.email}"></td>
+                    <td class="text-dark" th:text="${siteUser.role}"></td>
                     <td><a class="btn btn-link p-0" th:href="@{|/admin/users/modify/${siteUser.id}|}"><i class="bi bi-gear-fill"></i></a></td>
                 </tr>
             </tbody>

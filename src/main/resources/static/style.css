@@ -47,7 +47,11 @@ html > body {
 }
 
 .icon-align {
-    position: relative;
-    top: 2px;
-    left: 2px;
+  position: relative;
+  top: 2px;
+  left: 2px;
+}
+
+#post_title:hover {
+  color: black !important;
 }

@@ -1,4 +1,4 @@
-<html layout:decorate="~{layout/layout}">
+<html layout:decorate="~{common/layout}">
     <div class="container" style="max-width:1200px;" layout:fragment="content">
         <div class="row mx-3 mb-4">
             <div class="col-1"></div>
@@ -39,11 +39,11 @@
 
             <tbody>
                 <tr class="align-middle" th:each="post : ${pagedPosts.content}">
-                    <td class="text-center" th:text="${post.id}"></td>
-                    <td><a class="d-block text-decoration-none text-black" th:text="${post.title}" th:href="@{|/post/detail/${post.id}|}"></a></td>
-                    <td th:text="${post.author.username}"></td>
-                    <td class="text-center" th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd')}"></td>
-                    <td class="text-center" th:text="${post.hitCount}"></td>
+                    <td class="text-center text-dark" th:text="${post.id}"></td>
+                    <td><a class="d-block text-decoration-none text-dark" id="post_title" th:text="${post.title}" th:href="@{|/post/detail/${post.id}|}"></a></td>
+                    <td class="text-dark" th:text="${post.author.username}"></td>
+                    <td class="text-center text-dark" th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd')}"></td>
+                    <td class="text-center text-dark" th:text="${post.hitCount}"></td>
                 </tr>
             </tbody>
         </table>

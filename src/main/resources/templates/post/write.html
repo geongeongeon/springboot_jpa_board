@@ -1,4 +1,4 @@
-<html layout:decorate="~{layout/layout}">
+<html layout:decorate="~{common/layout}">
     <div class="container" style="width:1200px;" layout:fragment="content">
         <form th:action="@{/post/write}" th:object="${postDto}" method="POST">
             <div th:replace="msg/error"></div>

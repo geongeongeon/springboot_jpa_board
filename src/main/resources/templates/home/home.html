@@ -1,4 +1,4 @@
-<html layout:decorate="~{layout/layout}">
+<html layout:decorate="~{common/layout}">
     <div class="container" layout:fragment="content">
         <div class="text-center mx-auto" style="width:1000px; height:50px; line-height:75px; background-color:#2D2D2D;" sec:authorize="isAuthenticated()">
             <span class="text-white fs-5" th:text="${#authentication.name} + ' 님 안녕하세요!'"></span>

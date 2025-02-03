@@ -1,6 +1,8 @@
 package gh.springboot.jpaboard;
 
 import gh.springboot.jpaboard.boundedContext.admin.AdminService;
+import gh.springboot.jpaboard.boundedContext.post.PostRepository;
+import gh.springboot.jpaboard.boundedContext.post.PostService;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
@@ -53,6 +55,12 @@ class JpaBoardApplicationTests {
 
 	@Autowired
 	private AdminService adminService;
+
+	@Autowired
+	private PostRepository postRepository;
+
+	@Autowired
+	private PostService postService;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -229,12 +237,27 @@ class JpaBoardApplicationTests {
 	@Test
 	@DisplayName("회원 100명 생성")
 	@Rollback(value = false)
-	void t999() {
+	void t998() {
 		long countAllUser = userRepository.count();
 
 		IntStream.rangeClosed(1, 100).forEach(id -> userService.createUser("user%d".formatted(id), "1234", "user%d@test.com".formatted(id), UserRole.USER));
 
 		assertThat(userRepository.count()).isEqualTo(countAllUser + 100L);
+	}
+
+	@Test
+	@DisplayName("게시글 100개 생성")
+	@Rollback(value = false)
+	void t999() {
+		Optional<SiteUser> optUser = userService.getSiteUserByUsername("start_user1");
+
+		optUser.ifPresent(user -> {
+			long countAllPost = postRepository.count();
+
+			IntStream.rangeClosed(1, 100).forEach(id -> postService.writePost(user, "게시글 제목%d".formatted(id), "게시글 내용%d".formatted(id)));
+
+			assertThat(postRepository.count()).isEqualTo(countAllPost + 100L);
+		});
 	}
 
 }

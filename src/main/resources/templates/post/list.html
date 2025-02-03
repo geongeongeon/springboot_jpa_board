@@ -48,7 +48,7 @@
             </tbody>
         </table>
 
-        <nav th:if="${!pagedPosts.isEmpty}" th:with="queryStrBase = 'users?kw=' + ${param.kw != null ? param.kw : ''}">
+        <nav th:if="${!pagedPosts.isEmpty}" th:with="queryStrBase = '?kw=' + ${param.kw != null ? param.kw : ''}">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:if="${pagedPosts.hasPrevious()}">
                     <a class="page-link px-2" th:href="@{|${queryStrBase}&page=0|}">&laquo;</a>

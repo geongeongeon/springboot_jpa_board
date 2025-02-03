@@ -48,4 +48,11 @@ public class PostService {
         return postRepository.findById(id);
     }
 
+    public void increaseHitCount(Post post) {
+        long hitCount = post.getHitCount();
+        post.setHitCount(hitCount + 1);
+
+        postRepository.save(post);
+    }
+
 }

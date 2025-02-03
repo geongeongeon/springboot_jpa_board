@@ -40,7 +40,7 @@
             <tbody>
                 <tr class="align-middle" th:each="post : ${pagedPosts.content}">
                     <td class="text-center text-dark" th:text="${post.id}"></td>
-                    <td><a class="d-block text-decoration-none text-dark" id="post_title" th:text="${post.title}" th:href="@{|/post/detail/${post.id}|}"></a></td>
+                    <td><a class="text-decoration-none text-dark" id="post_title" th:text="${post.title}" th:href="@{|/post/detail/${post.id}|}"></a></td>
                     <td class="text-dark" th:text="${post.author.username}"></td>
                     <td class="text-center text-dark" th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd')}"></td>
                     <td class="text-center text-dark" th:text="${post.hitCount}"></td>

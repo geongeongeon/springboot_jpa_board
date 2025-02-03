@@ -62,6 +62,8 @@ public class PostController {
         Optional<Post> optPost = postService.getPostById(id);
 
         optPost.ifPresent(post -> {
+            postService.increaseHitCount(post);
+
             model.addAttribute("post", post);
         });
 

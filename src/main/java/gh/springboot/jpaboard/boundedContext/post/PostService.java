@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +42,10 @@ public class PostService {
         }
 
         return postRepository.searchPostsByTitleOrContent(kw, pageable);
+    }
+
+    public Optional<Post> getPostById(Long id) {
+        return postRepository.findById(id);
     }
 
 }

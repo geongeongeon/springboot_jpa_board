@@ -10,6 +10,14 @@ html > body {
   text-underline-position: under;
 }
 
+* {
+  user-select: none;
+}
+
+.allow-select {
+  user-select: text;
+}
+
 .popover-body {
   font-family: 'GmarketSansMedium';
   text-underline-position: under;
@@ -36,4 +44,10 @@ html > body {
 
 .ck-editor__nested-editable {
   height: 50px;
+}
+
+.icon-align {
+    position: relative;
+    top: 2px;
+    left: 2px;
 }

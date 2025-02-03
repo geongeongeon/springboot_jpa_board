@@ -3,12 +3,12 @@
         <form th:action="@{/post/write}" th:object="${postDto}" method="POST">
             <div th:replace="msg/error"></div>
 
-            <div class="input-group mb-3">
-                <label class="input-group-text" style="min-width:100px; border-radius:0;">제목</label>
-                <input class="form-control" style="border-radius:0;" th:field="*{title}" placeholder="제목을 입력하세요." type="text">
+            <div class="input-group">
+                <label class="input-group-text border-bottom-0" style="min-width:100px; border-bottom-left-radius:0; border-bottom-right-radius:0;">제목</label>
+                <input class="form-control border-bottom-0" style="border-bottom-left-radius:0; border-bottom-right-radius:0;" th:field="*{title}" placeholder="제목을 입력하세요." type="text">
             </div>
 
-            <textarea id="editor" class="overflow-auto" style="height:500px;" th:field="*{content}" placeholder="내용을 입력하세요."></textarea>
+            <textarea id="editor" th:field="*{content}" placeholder="내용을 입력하세요."></textarea>
 
             <div class="text-center mt-4">
                 <button class="btn btn-outline-dark" style="width:100px;" type="submit">작성</button>

@@ -1,0 +1,88 @@
+<html layout:decorate="~{layout/layout}">
+    <div class="container" style="max-width:1200px;" layout:fragment="content">
+        <div class="card p-4">
+            <div class="card-body pb-0">
+                <h3 class="card-title fw-semibold" th:text="${post.title}"></h3>
+            </div>
+
+            <div class="card-body mx-3 pb-0 row">
+                <div class="col-6">
+                    <div class="mb-3">
+                        <span class="bg-secondary text-white p-1 me-1 rounded">작성자</span>
+                        <span class="fs-6 text-secondary" th:text="${post.author.username}"></span>
+                    </div>
+
+                    <div>
+                        <span class="bg-secondary text-white p-1 me-1 rounded">조회수</span>
+                        <span class="fs-6 text-secondary" th:text="${post.hitCount}"></span>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <div class="mb-3">
+                        <span class="bg-secondary text-white p-1 me-1 rounded">작성날짜</span>
+                        <span class="fs-6 text-secondary" th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    </div>
+
+                    <div>
+                        <span class="bg-secondary text-white p-1 me-1 rounded">수정날짜</span>
+                        <span class="fs-6 text-secondary" th:text="${#temporals.format(post.modifyDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="mx-3 my-4">
+
+            <div class="card-body mx-3 py-0">
+                <p th:utext="${post.content}"></p>
+            </div>
+
+            <hr class="mx-3 mb-4">
+
+            <div class="card-body d-flex align-items-center gap-3 mx-3 py-1">
+                <div class="">
+                    <a href="#"><span class="fs-5"><i class="bi bi-chat text-primary icon-align" id="icon_comment"></i></span></a>
+                    <span class="fs-6" th:text="0"></span>
+                </div>
+
+                <div>
+                    <a href="#"><span class="fs-5"><i class="bi bi-hand-thumbs-up text-success icon-align" id="icon_like"></i></span></a>
+                    <span class="fs-6" th:text="0"></span>
+                </div>
+
+                <div>
+                    <a href="#"><span class="fs-5"><i class="bi bi-hand-thumbs-down text-danger icon-align" id="icon_dislike"></i></span></a>
+                    <span class="fs-6" th:text="0"></span>
+                </div>
+            </div>
+
+            <script>
+                $(document).ready(function() {
+                    $('#icon_comment').hover(function() {
+                        $(this).removeClass('bi-chat');
+                        $(this).addClass('bi-chat-fill');
+                    }, function() {
+                        $(this).removeClass('bi-chat-fill');
+                        $(this).addClass('bi-chat');
+                    });
+
+                    $('#icon_like').hover(function() {
+                        $(this).removeClass('bi-hand-thumbs-up');
+                        $(this).addClass('bi-hand-thumbs-up-fill');
+                    }, function() {
+                        $(this).removeClass('bi-hand-thumbs-up-fill');
+                        $(this).addClass('bi-hand-thumbs-up');
+                    });
+
+                    $('#icon_dislike').hover(function() {
+                        $(this).removeClass('bi-hand-thumbs-down');
+                        $(this).addClass('bi-hand-thumbs-down-fill');
+                    }, function() {
+                        $(this).removeClass('bi-hand-thumbs-down-fill');
+                        $(this).addClass('bi-hand-thumbs-down');
+                    });
+                });
+            </script>
+        </div>
+    </div>
+</html>

@@ -4,7 +4,7 @@
             <div class="col-1"></div>
 
             <div class="col-2">
-                <select class="form-select border-dark ">
+                <select class="form-select border-dark" >
                     <option value="idDesc" selected>최신순</option>
                     <option value="hitCountDesc">조회순</option>
                 </select>
@@ -26,7 +26,7 @@
             <div class="col-1"></div>
         </div>
 
-        <table class="table mb-4">
+        <table class="table table-hover mb-4">
             <thead class="table-light">
                 <tr>
                     <th class="text-center fs-6">번호</th>
@@ -40,7 +40,7 @@
             <tbody>
                 <tr class="align-middle" th:each="post : ${pagedPosts.content}">
                     <td class="text-center" th:text="${post.id}"></td>
-                    <td th:text="${post.title}"></td>
+                    <td><a class="d-block text-decoration-none text-black" th:text="${post.title}" th:href="@{|/post/detail/${post.id}|}"></a></td>
                     <td th:text="${post.author.username}"></td>
                     <td class="text-center" th:text="${#temporals.format(post.createDate, 'yyyy-MM-dd')}"></td>
                     <td class="text-center" th:text="${post.hitCount}"></td>

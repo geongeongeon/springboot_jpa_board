@@ -5,18 +5,12 @@ import gh.springboot.jpaboard.boundedContext.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 @Controller
@@ -61,6 +55,17 @@ public class PostController {
         });
 
         return "redirect:/post/list";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String showPostDetail(Model model, @PathVariable("id") Long id) {
+        Optional<Post> optPost = postService.getPostById(id);
+
+        optPost.ifPresent(post -> {
+            model.addAttribute("post", post);
+        });
+
+        return "post/detail";
     }
 
 }

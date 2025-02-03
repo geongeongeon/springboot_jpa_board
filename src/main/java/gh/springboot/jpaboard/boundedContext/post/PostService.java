@@ -41,7 +41,7 @@ public class PostService {
             return postRepository.findAll(pageable);
         }
 
-        return postRepository.searchPostsByTitleOrContent(kw, pageable);
+        return postRepository.searchPostsByTitleOrContentOrAuthor(kw, pageable);
     }
 
     public Optional<Post> getPostById(Long id) {

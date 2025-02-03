@@ -5,6 +5,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface PostRepositoryCustom {
 
-    Page<Post> searchPostsByTitleOrContent(String kw, Pageable pageable);
+    Page<Post> searchPostsByTitleOrContentOrAuthor(String kw, Pageable pageable);
 
 }

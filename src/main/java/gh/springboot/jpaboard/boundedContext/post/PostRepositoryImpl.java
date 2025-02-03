@@ -15,10 +15,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Post> searchPostsByTitleOrContent(String kw, Pageable pageable) {
+    public Page<Post> searchPostsByTitleOrContentOrAuthor(String kw, Pageable pageable) {
         QueryResults<Post> searchedResult = jpaQueryFactory.selectFrom(post)
                 .where(post.title.contains(kw)
-                        .or(post.content.contains(kw)))
+                        .or(post.content.contains(kw)
+                                .or(post.author.username.contains(kw))))
                 .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

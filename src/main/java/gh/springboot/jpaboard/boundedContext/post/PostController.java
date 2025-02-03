@@ -58,11 +58,17 @@ public class PostController {
     }
 
     @GetMapping("/detail/{id}")
-    public String showPostDetail(Model model, @PathVariable("id") Long id) {
+    public String showPostDetail(Model model, @PathVariable("id") Long id, Principal principal) {
         Optional<Post> optPost = postService.getPostById(id);
 
         optPost.ifPresent(post -> {
-            postService.increaseHitCount(post);
+            Optional<SiteUser> optUser = userService.getSiteUserByUsername(post.getAuthor().getUsername());
+            
+            optUser.ifPresent(user -> {
+                if (!principal.getName().equals(user.getUsername())) {
+                    postService.increaseHitCount(post);
+                }
+            });
 
             model.addAttribute("post", post);
         });

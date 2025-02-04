@@ -8,15 +8,43 @@
                 <input class="form-control border-bottom-0" style="border-bottom-left-radius:0; border-bottom-right-radius:0;" th:field="*{title}" placeholder="제목을 입력하세요." type="text">
             </div>
 
-            <textarea id="editor" th:field="*{content}" placeholder="내용을 입력하세요."></textarea>
+            <textarea class="d-none" id="summernote" th:field="*{content}"></textarea>
 
             <div class="text-center mt-4">
                 <button class="btn btn-outline-dark" style="width:100px;" type="submit">작성</button>
             </div>
         </form>
 
-        <script src="https://cdn.ckeditor.com/ckeditor5/44.1.0/ckeditor5.umd.js" crossorigin></script>
-        <script src="https://cdn.ckeditor.com/ckeditor5/44.1.0/translations/ko.umd.js" crossorigin></script>
-        <script src="/write.js"></script>
+        <script>
+            $(document).ready(function() {
+                $('#summernote').summernote({
+                    lang: 'ko-KR',
+                    placeholder: '내용을 입력하세요.',
+                    height: 400,
+                    toolbar: [
+                        ['fontsize', ['fontsize']],
+                        ['font', ['bold', 'italic', 'underline', 'strikethrough', 'color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['insert', ['table', 'link', 'hr']],
+                        ['view', ['codeview']]
+                    ],
+                    fontSizes: ['9', '10', '11', '12', '14', '16', '24', '36'],
+                    disableDragAndDrop: true,
+                    callbacks: {
+                        onKeydown: function(e) {
+                            if (e.keyCode === 9) {
+                                e.preventDefault();
+                                document.execCommand('insertText', false, '    ');
+                            }
+                        },
+                        onInit: function () {
+                            $('.note-editable').css('font-family', 'GmarketSansMedium');
+                            $('.note-editable').css('line-height', '1.3');
+                            $('#summernote').show();
+                        }
+                    }
+                });
+            });
+        </script>
     </div>
 </html>

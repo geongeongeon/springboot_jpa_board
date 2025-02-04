@@ -1,0 +1,100 @@
+@font-face {
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html > body {
+  font-family: 'GmarketSansMedium';
+  text-underline-position: under;
+}
+
+* {
+  user-select: none;
+}
+
+.allow-select {
+  user-select: text;
+}
+
+.popover-body {
+  font-family: 'GmarketSansMedium';
+  text-underline-position: under;
+  color: blue !important;
+}
+
+.pagination a {
+  color: gray;
+}
+
+.page-link:hover {
+  color: black !important;
+}
+
+.pagination .page-item.active .page-link {
+  background-color: black !important;
+  color: white !important;
+  border-color: black !important;
+}
+
+.icon-align {
+  position: relative;
+  top: 2px;
+  left: 2px;
+}
+
+#post_title:hover {
+  color: black !important;
+}
+
+.note-statusbar {
+  display: none !important;
+}
+
+.note-frame {
+  border-color: #dee2e6 !important;
+  border-radius: 0.375rem !important;
+  border-top-left-radius: 0px !important;
+  border-top-right-radius: 0px !important;
+}
+
+.note-dropdown-menu > .note-list {
+  display: none !important;
+}
+
+.note-editor .note-toolbar .note-para .note-dropdown-menu, .note-popover .popover-content .note-para .note-dropdown-menu {
+  min-width: 160px !important;
+  text-align: center !important;
+}
+
+.note-editor .note-toolbar .note-color-all .note-dropdown-menu, .note-popover .popover-content .note-color-all .note-dropdown-menu {
+  text-align: center !important;
+  min-width: 360px !important;
+}
+
+.note-editor .note-toolbar .note-color .note-dropdown-menu .note-palette:first-child, .note-popover .popover-content .note-color .note-dropdown-menu .note-palette:first-child {
+  margin: 0 !important;
+  margin-right: 10px !important;
+}
+
+.note-dropdown-menu .note-align {
+  margin-right: 0 !important;
+}
+
+.note-btn>span.note-icon-caret:nth-child(2) {
+  display: none !important;
+}
+
+.note-editor .note-toolbar .note-dropdown-menu, .note-popover .popover-content .note-dropdown-menu {
+  min-width: 52px !important;
+}
+
+.note-editor .note-editable p {
+    margin-top: 0 !important;
+    margin-bottom: 0.6rem !important;
+}
+
+.note-editor .note-placeholder {
+    font-family: 'GmarketSansMedium';
+}

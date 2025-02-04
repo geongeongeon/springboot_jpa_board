@@ -39,8 +39,13 @@ public class SiteUser implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Post> posts = new ArrayList<>();
+
+    public void addPost(Post post) {
+        post.setAuthor(this);
+        posts.add(post);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

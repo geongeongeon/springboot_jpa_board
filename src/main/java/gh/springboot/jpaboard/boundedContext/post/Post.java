@@ -31,6 +31,7 @@ public class Post {
     private LocalDateTime modifyDate;
 
     @ManyToOne
+    @JoinColumn(name = "author_id")
     private SiteUser author;
 
 }

@@ -9,7 +9,7 @@
                 <div class="col-6">
                     <div class="mb-3">
                         <span class="bg-secondary text-white p-1 me-1 rounded">작성자</span>
-                        <span class="fs-6 text-secondary" th:text="${post.author.username}"></span>
+                        <span class="fs-6 text-secondary" th:text="${post.author == null ? 'deleted_user' : post.author.username}"></span>
                     </div>
 
                     <div>

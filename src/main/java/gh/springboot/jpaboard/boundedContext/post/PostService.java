@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PostService {
 
     private final PostRepository postRepository;
@@ -27,6 +29,8 @@ public class PostService {
                 .createDate(LocalDateTime.now())
                 .modifyDate(LocalDateTime.now())
                 .build();
+
+        user.addPost(post);
 
         postRepository.save(post);
     }
@@ -51,6 +55,12 @@ public class PostService {
     public void increaseHitCount(Post post) {
         long hitCount = post.getHitCount();
         post.setHitCount(hitCount + 1);
+
+        postRepository.save(post);
+    }
+
+    public void updateAuthorToNull(Post post) {
+        post.setAuthor(null);
 
         postRepository.save(post);
     }

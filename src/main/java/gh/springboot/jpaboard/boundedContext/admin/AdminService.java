@@ -1,6 +1,8 @@
 package gh.springboot.jpaboard.boundedContext.admin;
 
 import gh.springboot.jpaboard.boundedContext.error.DataUnchangedException;
+import gh.springboot.jpaboard.boundedContext.post.Post;
+import gh.springboot.jpaboard.boundedContext.post.PostService;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserRepository;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
@@ -16,6 +18,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -25,9 +28,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AdminService {
 
     private final UserRepository userRepository;
+
+    private final PostService postService;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -88,6 +94,14 @@ public class AdminService {
         Optional<SiteUser> optDeleteUser = userRepository.findById(id);
 
         if (optDeleteUser.isPresent()) {
+            List<Post> posts = optDeleteUser.get().getPosts();
+
+            if (!posts.isEmpty()) {
+                for (Post post : posts) {
+                    postService.updateAuthorToNull(post);
+                }
+            }
+
             userRepository.deleteById(id);
 
             if (optDeleteUser.get().getUsername().equals(loginUser.getName())) {

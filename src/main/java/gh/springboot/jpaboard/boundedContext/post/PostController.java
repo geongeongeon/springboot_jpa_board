@@ -62,13 +62,9 @@ public class PostController {
         Optional<Post> optPost = postService.getPostById(id);
 
         optPost.ifPresent(post -> {
-            Optional<SiteUser> optUser = userService.getSiteUserByUsername(post.getAuthor().getUsername());
-            
-            optUser.ifPresent(user -> {
-                if (!principal.getName().equals(user.getUsername())) {
-                    postService.increaseHitCount(post);
-                }
-            });
+            if (post.getAuthor() == null || !principal.getName().equals(post.getAuthor().getUsername())) {
+                postService.increaseHitCount(post);
+            }
 
             model.addAttribute("post", post);
         });

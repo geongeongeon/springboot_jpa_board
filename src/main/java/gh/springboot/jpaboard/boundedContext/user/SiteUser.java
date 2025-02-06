@@ -1,5 +1,6 @@
 package gh.springboot.jpaboard.boundedContext.user;
 
+import gh.springboot.jpaboard.boundedContext.answer.Answer;
 import gh.springboot.jpaboard.boundedContext.post.Post;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -42,10 +43,8 @@ public class SiteUser implements UserDetails {
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Post> posts = new ArrayList<>();
 
-    public void addPost(Post post) {
-        post.setAuthor(this);
-        posts.add(post);
-    }
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    private List<Answer> answers = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -54,6 +53,16 @@ public class SiteUser implements UserDetails {
 
     public String getMaskedPassword() {
         return "************";
+    }
+
+    public void addPost(Post post) {
+        post.setAuthor(this);
+        posts.add(post);
+    }
+
+    public void addAnswer(Answer answer) {
+        answer.setAuthor(this);
+        answers.add(answer);
     }
 
 }

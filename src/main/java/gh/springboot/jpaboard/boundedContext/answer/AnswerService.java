@@ -22,7 +22,10 @@ public class AnswerService {
                 .content(content)
                 .createDate(LocalDateTime.now())
                 .modifyDate(LocalDateTime.now())
+                .postAnswerId(post.getAnswerCount() + 1)
                 .build();
+
+        post.addAnswer(answer);
 
         return answerRepository.save(answer);
     }

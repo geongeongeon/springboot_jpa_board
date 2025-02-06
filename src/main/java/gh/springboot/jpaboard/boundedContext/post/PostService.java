@@ -28,6 +28,7 @@ public class PostService {
                 .author(user)
                 .createDate(LocalDateTime.now())
                 .modifyDate(LocalDateTime.now())
+                .answerCount(0)
                 .build();
 
         user.addPost(post);

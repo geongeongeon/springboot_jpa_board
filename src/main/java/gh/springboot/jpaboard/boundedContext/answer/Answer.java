@@ -19,6 +19,8 @@ public class Answer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private long postAnswerId;
+
     @ManyToOne
     @JoinColumn(name = "author_id")
     private SiteUser author;
@@ -27,6 +29,7 @@ public class Answer {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
     private LocalDateTime createDate;

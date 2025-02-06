@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -40,12 +41,15 @@ public class Post {
     @JoinColumn(name = "author_id")
     private SiteUser author;
 
+    private long answerCount;
+
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
-    private List<Answer> answers;
+    private List<Answer> answers = new ArrayList<>();
 
     public void addAnswer(Answer answer) {
         answer.setPost(this);
         answers.add(answer);
+        answerCount++;
     }
 
 }

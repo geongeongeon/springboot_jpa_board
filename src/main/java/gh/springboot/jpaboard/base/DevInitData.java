@@ -1,5 +1,6 @@
 package gh.springboot.jpaboard.base;
 
+import gh.springboot.jpaboard.boundedContext.answer.AnswerRepository;
 import gh.springboot.jpaboard.boundedContext.post.PostRepository;
 import gh.springboot.jpaboard.boundedContext.post.PostService;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
@@ -20,6 +21,15 @@ public class DevInitData {
 
     @Bean
     @Order(1)
+    CommandLineRunner removeAllPreviousAnswerData(AnswerRepository answerRepository) {
+        return args -> {
+            answerRepository.deleteAll();
+            answerRepository.clearIdAutoIncrement();
+        };
+    }
+
+    @Bean
+    @Order(2)
     CommandLineRunner removeAllPreviousPostData(PostRepository postRepository) {
         return args -> {
             postRepository.deleteAll();
@@ -28,7 +38,7 @@ public class DevInitData {
     }
 
     @Bean
-    @Order(2)
+    @Order(3)
     CommandLineRunner removeAllPreviousUserData(UserRepository userRepository) {
         return args -> {
             userRepository.deleteAll();
@@ -37,7 +47,7 @@ public class DevInitData {
     }
 
     @Bean
-    @Order(3)
+    @Order(4)
     CommandLineRunner createStartUserData(UserService userService) {
         return args -> {
             userService.createUser("admin", "1234", "admin@test.com", UserRole.ADMIN);
@@ -48,7 +58,7 @@ public class DevInitData {
     }
 
     @Bean
-    @Order(4)
+    @Order(5)
     CommandLineRunner createStartPostData(UserService userService, PostService postService) {
         return args -> {
             Optional<SiteUser> admin = userService.getSiteUserByUsername("admin");

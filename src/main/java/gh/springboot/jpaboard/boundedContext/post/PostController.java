@@ -1,5 +1,6 @@
 package gh.springboot.jpaboard.boundedContext.post;
 
+import gh.springboot.jpaboard.boundedContext.answer.Answer;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
 import jakarta.validation.Valid;

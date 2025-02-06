@@ -21,7 +21,7 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public void writePost(SiteUser user, String title, String content) {
+    public Post writePost(SiteUser user, String title, String content) {
         Post post = Post.builder()
                 .title(title)
                 .content(content)
@@ -32,7 +32,7 @@ public class PostService {
 
         user.addPost(post);
 
-        postRepository.save(post);
+        return postRepository.save(post);
     }
 
     public Page<Post> getPostList(int page, String kw) {
@@ -61,6 +61,18 @@ public class PostService {
 
     public void updateAuthorToNull(Post post) {
         post.setAuthor(null);
+
+        postRepository.save(post);
+    }
+
+    public void deletePost(Long id) {
+        postRepository.deleteById(id);
+    }
+
+    public void modifyPost(Post post, String title, String content) {
+        post.setTitle(title);
+        post.setContent(content);
+        post.setModifyDate(LocalDateTime.now());
 
         postRepository.save(post);
     }

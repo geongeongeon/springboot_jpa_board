@@ -91,10 +91,10 @@ html > body {
 }
 
 .note-editor .note-editable p {
-    margin-top: 0 !important;
-    margin-bottom: 0.6rem !important;
+  margin-top: 0 !important;
+  margin-bottom: 0.6rem !important;
 }
 
 .note-editor .note-placeholder {
-    font-family: 'GmarketSansMedium';
+  font-family: 'GmarketSansMedium';
 }

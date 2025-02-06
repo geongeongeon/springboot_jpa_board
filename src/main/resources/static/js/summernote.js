@@ -21,7 +21,6 @@ $(document).ready(function() {
             },
             onInit: function () {
                 $('.note-editable').css('font-family', 'GmarketSansMedium');
-                $('.note-editable').css('line-height', '1.3');
                 $('#summernote').show();
             }
         }

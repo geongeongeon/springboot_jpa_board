@@ -11,23 +11,23 @@
 
         <table class="table table-hover mb-4">
             <thead class="table-light">
-                <tr class="text-center">
-                    <th class="fs-6">번호</th>
+                <tr class="">
+                    <th class="text-center">번호</th>
                     <th>아이디</th>
                     <th>비밀번호</th>
                     <th>이메일</th>
-                    <th>권한</th>
+                    <th class="text-center">권한</th>
                     <th></th>
                 </tr>
             </thead>
 
             <tbody>
-                <tr class="text-center align-middle" th:each="siteUser : ${pagedUsers.content}">
-                    <td class="text-dark" th:text="${siteUser.id}"></td>
+                <tr class=" align-middle" th:each="siteUser : ${pagedUsers.content}">
+                    <td class="text-center text-dark" th:text="${siteUser.id}"></td>
                     <td class="text-dark" th:text="${siteUser.username}"></td>
                     <td class="text-dark" th:text="${siteUser.password}"></td>
                     <td class="text-dark" th:text="${siteUser.email}"></td>
-                    <td class="text-dark" th:text="${siteUser.role}"></td>
+                    <td class="text-center text-dark" th:text="${siteUser.role}"></td>
                     <td><a class="btn btn-link p-0" th:href="@{|/admin/users/modify/${siteUser.id}|}"><i class="bi bi-gear-fill"></i></a></td>
                 </tr>
             </tbody>

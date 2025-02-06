@@ -254,7 +254,7 @@ class JpaBoardApplicationTests {
 		optUser.ifPresent(user -> {
 			long countAllPost = postRepository.count();
 
-			IntStream.rangeClosed(1, 100).forEach(id -> postService.writePost(user, "게시글 제목%d".formatted(id), "게시글 내용%d".formatted(id)));
+			IntStream.rangeClosed(1, 100).forEach(id -> postService.writePost(user, "게시글 제목 %d".formatted(id), "게시글 내용 %d".formatted(id)));
 
 			assertThat(postRepository.count()).isEqualTo(countAllPost + 100L);
 		});

@@ -1,3 +1,15 @@
 DROP DATABASE IF EXISTS jpa_board;
 CREATE DATABASE jpa_board;
+
 USE jpa_board;
+
+SHOW tables;
+
+DESC site_user;
+SELECT * FROM site_user;
+
+DESC post;
+SELECT * FROM post;
+
+DESC answer;
+SELECT * FROM answer;

@@ -85,8 +85,16 @@
             </section>
 
             <form id="form_deletePost" th:action="@{|/post/delete/${post.id}|}" method="POST"></form>
-
-            <script src="/js/detail.js"></script>
         </div>
+
+        <form class="mt-3 card" th:action="@{|/${post.id}/answer/write|}" method="POST">
+            <div class="d-flex align-items-center p-3 rounded">
+                <textarea class="w-100" name="content" style="resize:none;" placeholder="댓글을 입력하세요." maxlength="500" oninput="autoResize(this)"></textarea>
+
+                <button class="btn btn-outline-dark" style="width:75px;">작성</button>
+            </div>
+        </form>
+
+        <script src="/js/detail.js"></script>
     </div>
 </html>

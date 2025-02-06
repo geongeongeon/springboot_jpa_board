@@ -98,3 +98,8 @@ html > body {
 .note-editor .note-placeholder {
   font-family: 'GmarketSansMedium';
 }
+
+textarea {
+  border: none;
+  outline: none;
+}

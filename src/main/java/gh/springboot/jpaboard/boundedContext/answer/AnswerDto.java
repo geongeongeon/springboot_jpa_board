@@ -1,4 +1,4 @@
-package gh.springboot.jpaboard.boundedContext.post;
+package gh.springboot.jpaboard.boundedContext.answer;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -8,17 +8,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class PostDto {
+public class AnswerDto {
 
     private Long id;
 
-    @NotBlank(message = "제목을 입력해주세요.")
-    private String title;
-
     @NotBlank(message = "내용을 입력해주세요.")
     private String content;
-
-    private long hitCount;
 
     private LocalDateTime createDate;
 

@@ -22,4 +22,9 @@ $(document).ready(function() {
         $(this).removeClass('bi-hand-thumbs-down-fill');
         $(this).addClass('bi-hand-thumbs-down');
     });
+
+    $('textarea').on('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
 });

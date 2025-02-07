@@ -43,7 +43,7 @@ public class Post {
     @JoinColumn(name = "author_id")
     private SiteUser author;
 
-    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
 
     public void addAnswer(Answer answer) {

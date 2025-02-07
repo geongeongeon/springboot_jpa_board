@@ -103,3 +103,16 @@ textarea {
   border: none;
   outline: none;
 }
+
+.dropdown-menu {
+    --bs-dropdown-min-width: 7.5rem !important;
+}
+
+.dropdown-item:hover {
+  background-color: black !important;
+  color: white !important;
+}
+
+.dropdown-item:active, .dropdown-item:focus {
+  background-color: black !important;
+}

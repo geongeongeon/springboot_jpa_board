@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,14 @@ public class AnswerService {
         post.addAnswer(answer);
 
         return answerRepository.save(answer);
+    }
+
+    public Optional<Answer> getAnswerById(Long answerId) {
+        return answerRepository.findById(answerId);
+    }
+
+    public void deleteAnswer(Long answerId) {
+        answerRepository.deleteById(answerId);
     }
 
 }

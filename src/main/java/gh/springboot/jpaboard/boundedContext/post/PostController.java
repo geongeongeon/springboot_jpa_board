@@ -84,7 +84,7 @@ public class PostController {
             return "redirect:/post/list";
         }
 
-        return "redirect:/post/list/%s".formatted(id);
+        return "redirect:/post/detail/%s".formatted(id);
     }
 
     @GetMapping("/modify/{id}")
@@ -113,9 +113,7 @@ public class PostController {
 
         Optional<Post> optPost = postService.getPostById(id);
 
-        optPost.ifPresent(post -> {
-            postService.modifyPost(post, postDto.getTitle(), postDto.getContent());
-        });
+        optPost.ifPresent(post -> postService.modifyPost(post, postDto.getTitle(), postDto.getContent()));
 
         return "redirect:/post/detail/%s".formatted(id);
     }

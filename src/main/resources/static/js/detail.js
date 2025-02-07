@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#icon_comment').hover(function() {
+    $('#icon_answer').hover(function() {
         $(this).removeClass('bi-chat');
         $(this).addClass('bi-chat-fill');
     }, function() {

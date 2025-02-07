@@ -27,6 +27,8 @@ public class Post {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
+    private long answerCount;
+
     private long hitCount;
 
     private long likeCount;
@@ -40,8 +42,6 @@ public class Post {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private SiteUser author;
-
-    private long answerCount;
 
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER)
     private List<Answer> answers = new ArrayList<>();

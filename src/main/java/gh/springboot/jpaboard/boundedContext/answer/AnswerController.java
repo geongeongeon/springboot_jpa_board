@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -34,7 +35,7 @@ public class AnswerController {
 
         Answer answer = answerService.writeAnswer(user, post, answerDto.getContent());
 
-        return "redirect:/post/detail/%s".formatted(id);
+        return "redirect:/post/detail/%s#answer_%d".formatted(id, answer.getId());
     }
 
 }

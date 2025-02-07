@@ -78,4 +78,8 @@ public class PostService {
         postRepository.save(post);
     }
 
+    public Long getAnswerCountByPostId(Long id) {
+        return postRepository.searchAnswerCountByPostId(id);
+    }
+
 }

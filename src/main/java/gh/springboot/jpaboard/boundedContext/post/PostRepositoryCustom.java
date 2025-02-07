@@ -7,4 +7,6 @@ public interface PostRepositoryCustom {
 
     Page<Post> searchPostsByTitleOrContentOrAuthor(String kw, Pageable pageable);
 
+    Long searchAnswerCountByPostId(Long id);
+
 }

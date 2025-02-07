@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import static gh.springboot.jpaboard.boundedContext.post.QPost.post;
+import static gh.springboot.jpaboard.boundedContext.answer.QAnswer.answer;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -26,6 +27,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .fetchResults();
 
         return new PageImpl<>(searchedResult.getResults(), pageable, searchedResult.getTotal());
+    }
+
+    @Override
+    public Long searchAnswerCountByPostId(Long id) {
+        return jpaQueryFactory
+                .select(answer.count())
+                .from(answer)
+                .where(post.id.eq(id))
+                .fetchOne();
     }
 
 }

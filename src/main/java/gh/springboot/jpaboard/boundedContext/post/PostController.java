@@ -66,8 +66,11 @@ public class PostController {
                 postService.increaseHitCount(post);
             }
 
+            Long answerCount = postService.getAnswerCountByPostId(id);
+
             model.addAttribute("post", post);
             model.addAttribute("loginUser", principal.getName());
+            model.addAttribute("answerCount", answerCount);
         });
 
         return "post/detail";

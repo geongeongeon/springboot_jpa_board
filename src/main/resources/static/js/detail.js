@@ -27,4 +27,11 @@ $(document).ready(function() {
         this.style.height = 'auto';
         this.style.height = (this.scrollHeight) + 'px';
     });
+
+    $('#btn_modifyAnswer').on('click', function() {
+        $('#view_answerContent').addClass('d-none');
+        $('#view_answerModifyDate').addClass('d-none');
+        $('#edit_answerContent').removeClass('d-none');
+        $('#edit_answerModifyBtn').addClass('d-none');
+    });
 });

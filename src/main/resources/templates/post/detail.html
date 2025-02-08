@@ -95,10 +95,30 @@
 
                         <ul class="dropdown-menu">
                             <li><button class="dropdown-item">수정</button></li>
-                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_deleteAnswer">삭제</button></li>
+                            <li><button class="dropdown-item" data-bs-toggle="modal" th:data-bs-target="|#modal_deleteAnswer_${answer.id}|">삭제</button></li>
                         </ul>
 
-                        <form id="form_deleteAnswer" th:action="@{|/post/${post.id}/answer/delete/${answer.id}|}" method="POST"></form>
+                        <form th:id="|form_deleteAnswer_${answer.id}|" th:action="@{|/post/${post.id}/answer/delete/${answer.id}|}" method="POST"></form>
+
+                        <div class="modal fade" th:id="|modal_deleteAnswer_${answer.id}|" data-bs-backdrop="static" tabindex="-1" aria-labelledby="|modalLabel_deleteAnswer_${answer.id}|">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" th:id="|modalLabel_deleteAnswer_${answer.id}|">댓글 삭제</h1>
+                                        <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                                    </div>
+
+                                    <div class="modal-body">
+                                        이 댓글을 정말 삭제하시겠습니까?<br>삭제한 후에는 다시 복구할 수 없습니다.
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
+                                        <button class="btn btn-danger" type="button" th:onclick="|$('#form_deleteAnswer_${answer.id}').submit();|">삭제</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -132,25 +152,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modal_deleteAnswer" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalLabel_deleteAnswer">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="modalLabel_deleteAnswer">댓글 삭제</h1>
-                        <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
-                    </div>
 
-                    <div class="modal-body">
-                        이 댓글을 정말 삭제하시겠습니까?<br>삭제한 후에는 다시 복구할 수 없습니다.
-                    </div>
-
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
-                        <button class="btn btn-danger" type="button" onclick="$('#form_deleteAnswer').submit();">삭제</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         <script src="/js/detail.js"></script>
     </div>

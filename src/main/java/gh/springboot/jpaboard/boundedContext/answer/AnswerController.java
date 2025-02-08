@@ -43,6 +43,8 @@ public class AnswerController {
         Answer answer = optAnswer.isPresent() ? optAnswer.get() : null;
 
         if (answer.getAuthor().getUsername().equals(principal.getName())) {
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " + answer_id + " 삭제합니다.");
+
             answerService.deleteAnswer(answer_id);
         }
 

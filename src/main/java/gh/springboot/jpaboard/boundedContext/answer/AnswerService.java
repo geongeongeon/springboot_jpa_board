@@ -39,4 +39,11 @@ public class AnswerService {
         answerRepository.deleteById(answerId);
     }
 
+    public void modifyAnswer(Answer answer, String content) {
+        answer.setContent(content);
+        answer.setModifyDate(LocalDateTime.now());
+
+        answerRepository.save(answer);
+    }
+
 }

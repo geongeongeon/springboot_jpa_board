@@ -51,4 +51,16 @@ public class AnswerController {
         return "redirect:/post/detail/%s".formatted(id);
     }
 
+    @PostMapping("/modify/{answer_id}")
+    public String modifyAnswer(@PathVariable("id") Long id, @PathVariable("answer_id") Long answer_id, Principal principal, AnswerDto answerDto) {
+        Optional<Answer> optAnswer = answerService.getAnswerById(answer_id);
+        Answer answer = optAnswer.isPresent() ? optAnswer.get() : null;
+
+        if (principal.getName().equals(answer.getAuthor().getUsername())) {
+            answerService.modifyAnswer(answer, answerDto.getContent());
+        }
+
+        return "redirect:/post/detail/%s#answer_%s".formatted(id, answer_id);
+    }
+
 }

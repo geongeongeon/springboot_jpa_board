@@ -34,6 +34,15 @@ $(document).ready(function() {
         $('#view_answerContent_' + answer_id).addClass('d-none');
         $('#view_answerModifyDate_' + answer_id).addClass('d-none');
         $('#form_editAnswer_' + answer_id).removeClass('d-none');
+
+        var original_content = $('#edit_textarea_' + answer_id).val();
         $('#edit_textarea_' + answer_id).focus().get(0).setSelectionRange($('#edit_textarea_' + answer_id).val().length, $('#edit_textarea_' + answer_id).val().length);
+
+        $(document).on('click', '#btn_cancelEdit_' + answer_id, function() {
+            $('#view_answerContent_' + answer_id).removeClass('d-none');
+            $('#view_answerModifyDate_' + answer_id).removeClass('d-none');
+            $('#form_editAnswer_' + answer_id).addClass('d-none');
+            $('#edit_textarea_' + answer_id).val(original_content);
+        })
     });
 });

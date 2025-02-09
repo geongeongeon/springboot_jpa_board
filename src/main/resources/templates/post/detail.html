@@ -68,7 +68,7 @@
 
         <form class="card mt-3" th:action="@{|/post/${post.id}/answer/write|}" method="POST">
             <div class="d-flex align-items-center p-3 rounded">
-                <textarea class="w-100" name="content" style="resize:none;" placeholder="댓글을 입력하세요." maxlength="500" oninput="autoResize(this)"></textarea>
+                <textarea class="w-100" style="resize:none;" name="content" placeholder="댓글을 입력하세요." maxlength="500" oninput="autoResize(this)"></textarea>
 
                 <button class="btn btn-outline-dark" style="width:75px;">작성</button>
             </div>
@@ -130,14 +130,14 @@
                     <div class="fs-6 text-secondary" th:text="${#temporals.format(answer.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </section>
 
-                <form class="d-none" th:id="|form_editAnswer_${answer.id}|" action="" method="POST">
+                <form class="d-none" th:id="|form_editAnswer_${answer.id}|" th:action="@{|/post/${post.id}/answer/modify/${answer.id}|}" method="POST">
                     <section class="mx-3" th:id="|edit_answerContent_${answer.id}|">
                         <textarea class="w-100 bg-light" th:id="|edit_textarea_${answer.id}|" style="resize:none;" name="content" placeholder="댓글을 입력하세요." maxlength="500" rows="1" oninput="autoResize(this)" th:text="${answer.content}"></textarea>
                     </section>
 
                     <section class="d-flex justify-content-end gap-3 mx-3" th:id="|edit_answerModifyBtn_${answer.id}|">
                         <button class="fs-6 bg-light text-secondary border-none p-1" th:id="|btn_cancelEdit_${answer.id}|" style="border:none !important;" type="button">취소</button>
-                        <button class="fs-6 bg-light text-secondary border-none p-1" th:id="|btn_saveEdit_${answer.id}|" style="border:none !important;" type="button">등록</button>
+                        <button class="fs-6 bg-light text-secondary border-none p-1" th:id="|btn_saveEdit_${answer.id}|" style="border:none !important;">등록</button>
                     </section>
                 </form>
             </div>

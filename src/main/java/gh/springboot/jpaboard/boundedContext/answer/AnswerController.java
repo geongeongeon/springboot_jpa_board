@@ -6,6 +6,7 @@ import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,10 @@ public class AnswerController {
 
     @PostMapping("/write")
     public String writeAnswer(@PathVariable("id") Long id, AnswerDto answerDto, Principal principal) {
+        if (answerDto.getContent().trim().isEmpty()) {
+            return "redirect:/post/detail/%s?error=true#form_writeAnswer".formatted(id);
+        }
+
         Optional<SiteUser> optUser = userService.getSiteUserByUsername(principal.getName());
         SiteUser user = optUser.isPresent() ? optUser.get() : null;
 
@@ -43,8 +48,6 @@ public class AnswerController {
         Answer answer = optAnswer.isPresent() ? optAnswer.get() : null;
 
         if (answer.getAuthor().getUsername().equals(principal.getName())) {
-            System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ " + answer_id + " 삭제합니다.");
-
             answerService.deleteAnswer(answer_id);
         }
 
@@ -52,7 +55,11 @@ public class AnswerController {
     }
 
     @PostMapping("/modify/{answer_id}")
-    public String modifyAnswer(@PathVariable("id") Long id, @PathVariable("answer_id") Long answer_id, Principal principal, AnswerDto answerDto) {
+    public String modifyAnswer(@PathVariable("id") Long id, @PathVariable("answer_id") Long answer_id, Principal principal, AnswerDto answerDto, Model model) {
+        if (answerDto.getContent().trim().isEmpty()) {
+            return "redirect:/post/detail/%s?error=true#form_writeAnswer".formatted(id);
+        }
+
         Optional<Answer> optAnswer = answerService.getAnswerById(answer_id);
         Answer answer = optAnswer.isPresent() ? optAnswer.get() : null;
 

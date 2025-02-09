@@ -1,6 +1,9 @@
 package gh.springboot.jpaboard.boundedContext.admin;
 
+import gh.springboot.jpaboard.boundedContext.answer.AnswerService;
 import gh.springboot.jpaboard.boundedContext.error.DataUnchangedException;
+import gh.springboot.jpaboard.boundedContext.post.Post;
+import gh.springboot.jpaboard.boundedContext.post.PostService;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserDto;
 import gh.springboot.jpaboard.boundedContext.user.UserRole;
@@ -23,6 +26,10 @@ import java.util.*;
 public class AdminController {
 
     private final AdminService adminService;
+
+    private final PostService postService;
+
+    private final AnswerService answerService;
 
     @GetMapping("/users")
     public String showUserList(Model model, @RequestParam(defaultValue = "0") int page, String kw) {
@@ -105,6 +112,15 @@ public class AdminController {
 
     @PostMapping("/users/delete/{id}")
     private String deleteUser(@PathVariable("id") Long id, Principal loginUser) {
+        SiteUser user = adminService.getSiteUserById(id).orElseThrow();
+        postService.removeAllLikesAndDislikes(user);
+
+        List<Post> userPosts = postService.getPostsByAuthorId(id);
+
+        for (Post post : userPosts) {
+            postService.removeAllLikesAndDislikesFromPost(post);
+        }
+
         return adminService.deleteUser(id, loginUser);
     }
 

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,12 +61,6 @@ public class PostService {
         postRepository.save(post);
     }
 
-    public void updateAuthorToNull(Post post) {
-        post.setAuthor(null);
-
-        postRepository.save(post);
-    }
-
     public void deletePost(Long id) {
         postRepository.deleteById(id);
     }
@@ -105,6 +100,31 @@ public class PostService {
             postRepository.save(post);
 
             return true;
+        }
+    }
+
+    public List<Post> getPostsByAuthorId(Long id) {
+        return postRepository.getPostsByAuthorId(id);
+    }
+
+    @Transactional
+    public void removeAllLikesAndDislikes(SiteUser user) {
+        for (Post post : new HashSet<>(user.getLikePosts())) {
+            post.removeLikedUser(user);
+        }
+
+        for (Post post : user.getDislikePosts()) {
+            post.removeDislikedUser(user);
+        }
+    }
+
+    public void removeAllLikesAndDislikesFromPost(Post post) {
+        for (SiteUser user : new HashSet<>(post.getLikedUsers())) {
+            post.removeLikedUser(user);
+        }
+
+        for (SiteUser user : new HashSet<>(post.getDislikedUsers())) {
+            post.removeDislikedUser(user);
         }
     }
 

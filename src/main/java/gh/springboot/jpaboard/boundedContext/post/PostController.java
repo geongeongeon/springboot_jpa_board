@@ -83,6 +83,8 @@ public class PostController {
         String postAuthorUsername = optPost.get().getAuthor().getUsername();
 
         if (postAuthorUsername.equals(principal.getName())) {
+            postService.removeAllLikesAndDislikesFromPost(optPost.get());
+
             postService.deletePost(id);
 
             return "redirect:/post/list";

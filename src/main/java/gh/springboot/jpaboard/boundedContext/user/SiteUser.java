@@ -37,16 +37,16 @@ public class SiteUser implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Post> posts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
     private Set<Post> likePosts = new LinkedHashSet<>();
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
     private Set<Post> dislikePosts = new LinkedHashSet<>();
 
     public void addPost(Post post) {
@@ -63,8 +63,16 @@ public class SiteUser implements UserDetails {
         likePosts.add(post);
     }
 
+    public void removeLikePost(Post post) {
+        likePosts.remove(post);
+    }
+
     public void addDislikePost(Post post) {
         dislikePosts.add(post);
+    }
+
+    public void removeDislikePost(Post post) {
+        dislikePosts.remove(post);
     }
 
     @Override

@@ -52,83 +52,62 @@ $(document).ready(function() {
 
     $(document).on('click', '#btn_like', function() {
         var postId = $(this).data('post-id');
-        console.log('id:' + postId);
-
         var loginUser = $(this).data('login-user');
-        console.log('loginUser:' + loginUser)
-
         var csrfToken = $('meta[name="_csrf"]').attr('content');
         var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
-
-       $.ajax({
-           url: "/post/like",
-           type: "POST",
-           contentType: "application/json",
-           dataType: "json",
-           beforeSend: function(xhr) {
-               xhr.setRequestHeader(csrfHeader, csrfToken);
-           },
-           data: JSON.stringify({
-               postId: postId,
-               loginUser: loginUser
-           }),
-           success: function(response) {
-               console.log('응답:', response);
-               if (response.success) {
-                  $('#postLikeCount').text(response.likeCount);
-                  $('#postModalLabel').text("성공");
-                  $('#postModalText').text("게시글에 '좋아요'를 눌렀습니다.");
-                  $('#postModal').modal('show');
-               } else {
-                  $('#postModalLabel').text("실패");
-                  $('#postModalText').text("이미 '좋아요'를 누른 게시글입니다.");
-                  $('#postModal').modal('show');
-               }
-           },
-           error: function(xhr, status, error) {
-               console.log('에러:', error);
-           }
-       });
+        handleLikeDislike('like', postId, loginUser, csrfToken, csrfHeader);
     });
 
     $(document).on('click', '#btn_dislike', function() {
-            var postId = $(this).data('post-id');
-            console.log('id:' + postId);
-
-            var loginUser = $(this).data('login-user');
-            console.log('loginUser:' + loginUser)
-
-            var csrfToken = $('meta[name="_csrf"]').attr('content');
-            var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
-
-           $.ajax({
-               url: "/post/dislike",
-               type: "POST",
-               contentType: "application/json",
-               dataType: "json",
-               beforeSend: function(xhr) {
-                   xhr.setRequestHeader(csrfHeader, csrfToken);
-               },
-               data: JSON.stringify({
-                   postId: postId,
-                   loginUser: loginUser
-               }),
-               success: function(response) {
-                   console.log('응답:', response);
-                   if (response.success) {
-                      $('#postDislikeCount').text(response.dislikeCount);
-                      $('#postModalLabel').text("성공");
-                      $('#postModalText').text("게시글에 '싫어요'를 눌렀습니다.");
-                      $('#postModal').modal('show');
-                   } else {
-                      $('#postModalLabel').text("실패");
-                      $('#postModalText').text("이미 '싫어요'를 누른 게시글입니다.");
-                      $('#postModal').modal('show');
-                   }
-               },
-               error: function(xhr, status, error) {
-                   console.log('에러:', error);
-               }
-           });
-        });
+        var postId = $(this).data('post-id');
+        var loginUser = $(this).data('login-user');
+        var csrfToken = $('meta[name="_csrf"]').attr('content');
+        var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+        handleLikeDislike('dislike', postId, loginUser, csrfToken, csrfHeader);
+    });
 });
+
+function handleLikeDislike(action, postId, loginUser, csrfToken, csrfHeader) {
+    $.ajax({
+        url: "/post/" + action,
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);
+        },
+        data: JSON.stringify({
+            postId: postId,
+            loginUser: loginUser
+        }),
+        success: function(response) {
+            console.log('응답:', response);
+            if (response.success) {
+                $('#postModalLabel').text("성공");
+
+                if (action === "like") {
+                    $('#postLikeCount').text(response.likeCount);
+                    $('#postModalText').text("게시글에 '좋아요'를 눌렀습니다.");
+                } else if (action === "dislike") {
+                    $('#postDislikeCount').text(response.dislikeCount);
+                    $('#postModalText').text("게시글에 '싫어요'를 눌렀습니다.");
+                }
+
+                $('#postModal').modal('show');
+            } else {
+                $('#postModalLabel').text("실패");
+
+                if (action === "like") {
+                    $('#postModalText').text("이미 '좋아요'를 누른 게시글입니다.");
+                } else if (action === "dislike") {
+                    $('#postModalText').text("이미 '싫어요'를 누른 게시글입니다.");
+                }
+
+                $('#postModal').modal('show');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.log('에러:', error);
+        }
+    });
+}

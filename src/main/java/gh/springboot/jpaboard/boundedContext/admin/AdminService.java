@@ -94,14 +94,6 @@ public class AdminService {
         Optional<SiteUser> optDeleteUser = userRepository.findById(id);
 
         if (optDeleteUser.isPresent()) {
-            List<Post> posts = optDeleteUser.get().getPosts();
-
-            if (!posts.isEmpty()) {
-                for (Post post : posts) {
-                    postService.updateAuthorToNull(post);
-                }
-            }
-
             userRepository.deleteById(id);
 
             if (optDeleteUser.get().getUsername().equals(loginUser.getName())) {

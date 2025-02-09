@@ -58,13 +58,32 @@
                     </div>
 
                     <div>
-                        <a href="#"><span class="fs-5"><i class="bi bi-hand-thumbs-up text-success icon-align" id="icon_like"></i></span></a>
-                        <span class="fs-6" th:text="0"></span>
+                        <span class="btn p-0 fs-5" id="btn_like" style="border:none !important;" th:attr="data-post-id=${post.id}, data-login-user=${loginUser}">
+                            <i class="bi bi-hand-thumbs-up text-success icon-align" id="icon_like"></i>
+                        </span>
+                        <span class="fs-6" id="postLikeCount" th:text="${post.likeCount}"></span>
+
+                        <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="postModalLabel"></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body" id="postModalText"></div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div>
-                        <a href="#"><span class="fs-5"><i class="bi bi-hand-thumbs-down text-danger icon-align" id="icon_dislike"></i></span></a>
-                        <span class="fs-6" th:text="0"></span>
+                        <span class="btn p-0 fs-5" id="btn_dislike" style="border:none !important;">
+                            <i class="bi bi-hand-thumbs-down text-danger icon-align" id="icon_dislike"></i>
+                        </span>
+                        <span class="fs-6" th:text="${post.dislikeCount}"></span>
                     </div>
                 </div>
 
@@ -109,11 +128,14 @@
                 <div class="p-3" th:id="|answer_${answer.id}|" th:if="${loginUser != answer.author.username}">
                     <section class="d-flex align-items-center justify-content-between mb-3">
                         <div class="fw-bolder" th:text="${answer.author.username}"></div>
-                        <div class="fs-6 text-secondary" th:text="${#temporals.format(answer.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
                     </section>
 
-                    <section class="mx-3">
+                    <section class="mx-3 mb-3">
                         <div th:text="${answer.content}"></div>
+                    </section>
+
+                    <section>
+                        <div class="fs-6 text-secondary" th:text="${#temporals.format(answer.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
                     </section>
                 </div>
 
@@ -174,6 +196,7 @@
                 </div>
             </div>
         </div>
+
         <script src="/js/detail.js"></script>
     </div>
 </html>

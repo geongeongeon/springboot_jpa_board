@@ -49,4 +49,45 @@ $(document).ready(function() {
             $('#edit_textarea_' + answer_id).val(original_content);
         })
     });
+
+    $(document).on('click', '#btn_like', function() {
+        var postId = $(this).data('post-id');
+        console.log('id:' + postId);
+
+        var loginUser = $(this).data('login-user');
+        console.log('loginUser:' + loginUser)
+
+        var csrfToken = $('meta[name="_csrf"]').attr('content');
+        var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+       $.ajax({
+           url: "/post/like",
+           type: "POST",
+           contentType: "application/json",
+           dataType: "json",
+           beforeSend: function(xhr) {
+               xhr.setRequestHeader(csrfHeader, csrfToken);
+           },
+           data: JSON.stringify({
+               postId: postId,
+               loginUser: loginUser
+           }),
+           success: function(response) {
+               console.log('응답:', response);
+               if (response.success) {
+                  $('#postLikeCount').text(response.likeCount);
+                  $('#postModalLabel').text("성공");
+                  $('#postModalText').text("게시글에 '좋아요'를 눌렀습니다.");
+                  $('#postModal').modal('show');
+               } else {
+                  $('#postModalLabel').text("실패");
+                  $('#postModalText').text("이미 '좋아요'를 누른 게시글입니다.");
+                  $('#postModal').modal('show');
+               }
+           },
+           error: function(xhr, status, error) {
+               console.log('에러:', error);
+           }
+       });
+    });
 });

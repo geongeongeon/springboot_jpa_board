@@ -1,9 +1,7 @@
 package gh.springboot.jpaboard.boundedContext.post;
 
-import gh.springboot.jpaboard.boundedContext.answer.Answer;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -13,6 +11,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -120,6 +120,32 @@ public class PostController {
         optPost.ifPresent(post -> postService.modifyPost(post, postDto.getTitle(), postDto.getContent()));
 
         return "redirect:/post/detail/%s".formatted(id);
+    }
+
+    @PostMapping("/like")
+    @ResponseBody
+    public Map<String, Object> likePost(@RequestBody Map<String, Object> request) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Integer postId = (Integer) request.get("postId");
+            String loginUser = (String) request.get("loginUser");
+
+            System.out.println("postId : " + postId);
+            System.out.println("loginUser : " + loginUser);
+
+            Optional<Post> optPost = postService.getPostById(postId.longValue());
+            Post post = optPost.orElseThrow();
+
+            boolean isLiked = postService.likePost(post, loginUser);
+
+            response.put("success", isLiked);
+            response.put("likeCount", post.getLikeCount());
+        } catch (Exception e) {
+            response.put("error", true);
+        }
+
+        return response;
     }
 
 }

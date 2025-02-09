@@ -35,6 +35,14 @@
                 <button class="btn btn-outline-dark" style="width:100px;" type="submit">가입</button>
             </div>
         </form>
+
+        <script>
+            $(document).ready(function() {
+                var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+                popoverTriggerList.map(function (popoverTriggerEl) {
+                    return new bootstrap.Popover(popoverTriggerEl);
+                });
+            });
+        </script>
     </div>
 </html>
-

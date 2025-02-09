@@ -3,6 +3,9 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="_csrf" th:content="${_csrf.token}">
+        <meta name="_csrf_header" th:content="${_csrf.headerName}">
+
         <title>JpaBoard</title>
 
         <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
@@ -31,14 +34,5 @@
         <section class="mt-5" id="footer">
             <div th:replace="common/footer"></div>
         </section>
-
-        <script>
-            $(document).ready(function(){
-                var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
-                var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-                    return new bootstrap.Popover(popoverTriggerEl);
-                });
-            });
-        </script>
     </body>
 </html>

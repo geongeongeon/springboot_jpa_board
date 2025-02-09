@@ -32,10 +32,10 @@ public class AnswerController {
         }
 
         Optional<SiteUser> optUser = userService.getSiteUserByUsername(principal.getName());
-        SiteUser user = optUser.isPresent() ? optUser.get() : null;
+        SiteUser user = optUser.orElse(null);
 
         Optional<Post> optPost = postService.getPostById(id);
-        Post post = optPost.isPresent() ? optPost.get() : null;
+        Post post = optPost.orElse(null);
 
         Answer answer = answerService.writeAnswer(user, post, answerDto.getContent());
 
@@ -45,7 +45,7 @@ public class AnswerController {
     @PostMapping("/delete/{answer_id}")
     public String deleteAnswer(@PathVariable("id") Long id, @PathVariable("answer_id") Long answer_id, Principal principal) {
         Optional<Answer> optAnswer = answerService.getAnswerById(answer_id);
-        Answer answer = optAnswer.isPresent() ? optAnswer.get() : null;
+        Answer answer = optAnswer.orElse(null);
 
         if (answer.getAuthor().getUsername().equals(principal.getName())) {
             answerService.deleteAnswer(answer_id);
@@ -61,7 +61,7 @@ public class AnswerController {
         }
 
         Optional<Answer> optAnswer = answerService.getAnswerById(answer_id);
-        Answer answer = optAnswer.isPresent() ? optAnswer.get() : null;
+        Answer answer = optAnswer.orElse(null);
 
         if (principal.getName().equals(answer.getAuthor().getUsername())) {
             answerService.modifyAnswer(answer, answerDto.getContent());

@@ -62,28 +62,13 @@
                             <i class="bi bi-hand-thumbs-up text-success icon-align" id="icon_like"></i>
                         </span>
                         <span class="fs-6" id="postLikeCount" th:text="${post.likeCount}"></span>
-
-                        <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="postModalLabel"></h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body" id="postModalText"></div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div>
-                        <span class="btn p-0 fs-5" id="btn_dislike" style="border:none !important;">
+                        <span class="btn p-0 fs-5" id="btn_dislike" style="border:none !important;" th:attr="data-post-id=${post.id}, data-login-user=${loginUser}">
                             <i class="bi bi-hand-thumbs-down text-danger icon-align" id="icon_dislike"></i>
                         </span>
-                        <span class="fs-6" th:text="${post.dislikeCount}"></span>
+                        <span class="fs-6" id="postDislikeCount" th:text="${post.dislikeCount}"></span>
                     </div>
                 </div>
 
@@ -106,8 +91,22 @@
                         </div>
                     </div>
                 </div>
-
                 <form id="form_deletePost" th:action="@{|/post/delete/${post.id}|}" method="POST"></form>
+
+                <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="postModalLabel"></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="postModalText"></div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-dark" data-bs-dismiss="modal">확인</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
         </div>
 

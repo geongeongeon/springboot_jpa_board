@@ -95,4 +95,17 @@ public class PostService {
         }
     }
 
+    public boolean dislikePost(Post post, SiteUser loginUser) {
+        if (post.getDislikedUsers().contains(loginUser)) {
+            return false;
+        } else {
+            post.setDislikeCount(post.getDislikeCount() + 1);
+            post.addDislikedUser(loginUser);
+
+            postRepository.save(post);
+
+            return true;
+        }
+    }
+
 }

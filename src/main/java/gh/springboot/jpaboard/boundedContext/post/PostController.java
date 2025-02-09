@@ -152,4 +152,34 @@ public class PostController {
         return response;
     }
 
+    @PostMapping("/dislike")
+    @ResponseBody
+    public Map<String, Object> dislikePost(@RequestBody Map<String, Object> request) {
+        Map<String, Object> response = new HashMap<>();
+
+        try {
+            Integer postId = (Integer) request.get("postId");
+            String loginUsername = (String) request.get("loginUser");
+
+            Optional<Post> optPost = postService.getPostById(postId.longValue());
+            Post post = optPost.orElseThrow();
+
+            Optional<SiteUser> optLoginUser = userService.getSiteUserByUsername(loginUsername);
+            SiteUser loginUser = optLoginUser.orElseThrow();
+
+            boolean isLiked = postService.dislikePost(post, loginUser);
+
+            response.put("success", isLiked);
+
+            if (isLiked) {
+                response.put("dislikeCount", post.getDislikeCount());
+            }
+
+        } catch (Exception e) {
+            response.put("error", true);
+        }
+
+        return response;
+    }
+
 }

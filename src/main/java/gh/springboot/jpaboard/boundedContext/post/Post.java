@@ -51,6 +51,9 @@ public class Post {
     @ManyToMany(cascade = CascadeType.REMOVE)
     private Set<SiteUser> likedUsers = new LinkedHashSet<>();
 
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private Set<SiteUser> dislikedUsers = new LinkedHashSet<>();
+
     public void addAnswer(Answer answer, SiteUser author) {
         answer.setPost(this);
         answers.add(answer);
@@ -61,6 +64,11 @@ public class Post {
     public void addLikedUser(SiteUser user) {
         user.addLikePost(this);
         likedUsers.add(user);
+    }
+
+    public void addDislikedUser(SiteUser user) {
+        user.addDislikePost(this);
+        dislikedUsers.add(user);
     }
 
 }

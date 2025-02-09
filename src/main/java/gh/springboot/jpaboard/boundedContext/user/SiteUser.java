@@ -46,14 +46,8 @@ public class SiteUser implements UserDetails {
     @ManyToMany(cascade = CascadeType.REMOVE)
     private Set<Post> likePosts = new LinkedHashSet<>();
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
-    }
-
-    public String getMaskedPassword() {
-        return "************";
-    }
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private Set<Post> dislikePosts = new LinkedHashSet<>();
 
     public void addPost(Post post) {
         post.setAuthor(this);
@@ -67,6 +61,19 @@ public class SiteUser implements UserDetails {
 
     public void addLikePost(Post post) {
         likePosts.add(post);
+    }
+
+    public void addDislikePost(Post post) {
+        dislikePosts.add(post);
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
+    }
+
+    public String getMaskedPassword() {
+        return "************";
     }
 
 }

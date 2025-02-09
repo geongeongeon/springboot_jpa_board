@@ -2,8 +2,19 @@
     <div class="container mb-5" style="max-width:1200px;" layout:fragment="content">
         <div class="card">
             <section class="p-4 bg-light rounded-top">
-                <div class="card-body pb-0">
+                <div class="card-body d-flex pb-0">
                     <h3 class="card-title fw-semibold" th:text="${post.title}"></h3>
+
+                    <div class="card-body d-flex justify-content-end ms-3 py-0" th:if="${loginUser} == ${post.author.username}">
+                        <div class="dropstart">
+                            <div type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots icon-align"></i></div>
+
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" th:href="@{|/post/modify/${post.id}|}">수정</a></li>
+                                <li><div class="btn dropdown-item" data-bs-toggle="modal" data-bs-target="#modal_deletePost">삭제</div></li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="card-body mx-3 pb-3 row">
@@ -55,11 +66,6 @@
                         <a href="#"><span class="fs-5"><i class="bi bi-hand-thumbs-down text-danger icon-align" id="icon_dislike"></i></span></a>
                         <span class="fs-6" th:text="0"></span>
                     </div>
-                </div>
-
-                <div class="card-body d-flex align-items-center justify-content-end gap-3 mx-3 py-1" th:if="${loginUser} == ${post.author.username}">
-                    <a class="btn btn-outline-dark" style="width:100px;" th:href="@{|/post/modify/${post.id}|}">수정</a>
-                    <div class="btn btn-outline-dark" style="width:100px;" data-bs-toggle="modal" data-bs-target="#modal_deletePost">삭제</div>
                 </div>
 
                 <div class="modal fade" id="modal_deletePost" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalLabel_deletePost">
@@ -115,7 +121,7 @@
                     <section class="d-flex align-items-center justify-content-between mb-3">
                         <div class="fw-bolder" th:text="${answer.author.username}"></div>
 
-                        <div class="dropdown dropstart">
+                        <div class="dropstart">
                             <div type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i></div>
 
                             <ul class="dropdown-menu">

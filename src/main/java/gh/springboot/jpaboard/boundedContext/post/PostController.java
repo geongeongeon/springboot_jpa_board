@@ -3,6 +3,7 @@ package gh.springboot.jpaboard.boundedContext.post;
 import gh.springboot.jpaboard.boundedContext.answer.Answer;
 import gh.springboot.jpaboard.boundedContext.user.SiteUser;
 import gh.springboot.jpaboard.boundedContext.user.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

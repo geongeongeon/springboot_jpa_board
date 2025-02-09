@@ -1,4 +1,8 @@
 $(document).ready(function() {
+    if (window.location.hash.trim() !== "") {
+        $('#commentsSection').addClass('show');
+    }
+
     $('#icon_answer').hover(function() {
         $(this).removeClass('bi-chat');
         $(this).addClass('bi-chat-fill');

@@ -42,7 +42,7 @@
             <section class="p-4 px-2 bg-light rounded-bottom d-flex">
                 <div class="card-body d-flex align-items-center gap-3 mx-3 py-1">
                     <div>
-                        <a href="#"><span class="fs-5"><i class="bi bi-chat text-primary icon-align" id="icon_answer"></i></span></a>
+                        <button class="bg-light fs-5 p-0" style="border:none !important;" data-bs-toggle="collapse" data-bs-target="#commentsSection"><i class="bi bi-chat text-primary icon-align" id="icon_answer"></i></button>
                         <span class="fs-6" th:text="${answerCount}"></span>
                     </div>
 
@@ -62,111 +62,112 @@
                     <div class="btn btn-outline-dark" style="width:100px;" data-bs-toggle="modal" data-bs-target="#modal_deletePost">삭제</div>
                 </div>
 
+                <div class="modal fade" id="modal_deletePost" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalLabel_deletePost">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalLabel_deletePost">게시글 삭제</h1>
+                                <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                            </div>
+
+                            <div class="modal-body">
+                                이 게시글을 정말 삭제하시겠습니까?<br>삭제한 후에는 다시 복구할 수 없습니다.
+                            </div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
+                                <button class="btn btn-danger" type="button" onclick="$('#form_deletePost').submit();">삭제</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <form id="form_deletePost" th:action="@{|/post/delete/${post.id}|}" method="POST"></form>
             </section>
         </div>
 
-        <div class="alert alert-danger text-center mt-3" th:if="${param.error}">
-            <div>댓글 내용이 입력되지 않았습니다.</div>
-        </div>
-
-        <form class="card mt-3" id="form_writeAnswer" th:action="@{|/post/${post.id}/answer/write|}" method="POST">
-            <div class="d-flex align-items-center p-3 rounded">
-                <textarea class="w-100" style="resize:none;" name="content" placeholder="댓글을 입력하세요." maxlength="500" oninput="autoResize(this)"></textarea>
-
-                <button class="btn btn-outline-dark" style="width:75px;">작성</button>
-            </div>
-        </form>
-
-        <div class="card mt-3" th:each="answer : ${post.answers}">
-            <div class="p-3" th:id="|answer_${answer.id}|" th:if="${loginUser != answer.author.username}">
-                <section class="d-flex align-items-center justify-content-between mb-3">
-                    <div class="fw-bolder" th:text="${answer.author.username}"></div>
-                    <div class="fs-6 text-secondary" th:text="${#temporals.format(answer.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
-                </section>
-
-                <section class="mx-3">
-                    <div th:text="${answer.content}"></div>
-                </section>
+        <div class="collapse" id="commentsSection">
+            <div class="alert alert-danger text-center mt-3" th:if="${param.error}">
+                <div>댓글 내용이 입력되지 않았습니다.</div>
             </div>
 
-            <div class="bg-light p-3" th:id="|answer_${answer.id}|" th:if="${loginUser == answer.author.username}">
-                <section class="d-flex align-items-center justify-content-between mb-3">
-                    <div class="fw-bolder" th:text="${answer.author.username}"></div>
+            <form class="card mt-3" id="form_writeAnswer" th:action="@{|/post/${post.id}/answer/write|}" method="POST">
+                <div class="d-flex align-items-center p-3 rounded">
+                    <textarea class="w-100" style="resize:none;" name="content" placeholder="댓글을 입력하세요." maxlength="500" oninput="autoResize(this)"></textarea>
 
-                    <div class="dropdown dropstart">
-                        <div type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i></div>
+                    <button class="btn btn-outline-dark" style="width:75px;">작성</button>
+                </div>
+            </form>
 
-                        <ul class="dropdown-menu">
-                            <li><button class="dropdown-item" th:id="|btn_modifyAnswer_${answer.id}|">수정</button></li>
-                            <li><button class="dropdown-item" data-bs-toggle="modal" th:data-bs-target="|#modal_deleteAnswer_${answer.id}|">삭제</button></li>
-                        </ul>
+            <div class="card mt-3" th:each="answer : ${post.answers}">
+                <div class="p-3" th:id="|answer_${answer.id}|" th:if="${loginUser != answer.author.username}">
+                    <section class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="fw-bolder" th:text="${answer.author.username}"></div>
+                        <div class="fs-6 text-secondary" th:text="${#temporals.format(answer.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
+                    </section>
 
-                        <form th:id="|form_deleteAnswer_${answer.id}|" th:action="@{|/post/${post.id}/answer/delete/${answer.id}|}" method="POST"></form>
+                    <section class="mx-3">
+                        <div th:text="${answer.content}"></div>
+                    </section>
+                </div>
 
-                        <div class="modal fade" th:id="|modal_deleteAnswer_${answer.id}|" data-bs-backdrop="static" tabindex="-1" aria-labelledby="|modalLabel_deleteAnswer_${answer.id}|">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" th:id="|modalLabel_deleteAnswer_${answer.id}|">댓글 삭제</h1>
-                                        <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
-                                    </div>
+                <div class="bg-light p-3" th:id="|answer_${answer.id}|" th:if="${loginUser == answer.author.username}">
+                    <section class="d-flex align-items-center justify-content-between mb-3">
+                        <div class="fw-bolder" th:text="${answer.author.username}"></div>
 
-                                    <div class="modal-body">
-                                        이 댓글을 정말 삭제하시겠습니까?<br>삭제한 후에는 다시 복구할 수 없습니다.
-                                    </div>
+                        <div class="dropdown dropstart">
+                            <div type="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-three-dots"></i></div>
 
-                                    <div class="modal-footer">
-                                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
-                                        <button class="btn btn-danger" type="button" th:onclick="|$('#form_deleteAnswer_${answer.id}').submit();|">삭제</button>
+                            <ul class="dropdown-menu">
+                                <li><button class="dropdown-item" th:id="|btn_modifyAnswer_${answer.id}|">수정</button></li>
+                                <li><button class="dropdown-item" data-bs-toggle="modal" th:data-bs-target="|#modal_deleteAnswer_${answer.id}|">삭제</button></li>
+                            </ul>
+
+                            <form th:id="|form_deleteAnswer_${answer.id}|" th:action="@{|/post/${post.id}/answer/delete/${answer.id}|}" method="POST"></form>
+
+                            <div class="modal fade" th:id="|modal_deleteAnswer_${answer.id}|" data-bs-backdrop="static" tabindex="-1" aria-labelledby="|modalLabel_deleteAnswer_${answer.id}|">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" th:id="|modalLabel_deleteAnswer_${answer.id}|">댓글 삭제</h1>
+                                            <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            이 댓글을 정말 삭제하시겠습니까?<br>삭제한 후에는 다시 복구할 수 없습니다.
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
+                                            <button class="btn btn-danger" type="button" th:onclick="|$('#form_deleteAnswer_${answer.id}').submit();|">삭제</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
-
-                <section class="mx-3 mb-3" th:id="|view_answerContent_${answer.id}|">
-                    <div th:text="${answer.content}"></div>
-                </section>
-
-                <section th:id="|view_answerModifyDate_${answer.id}|">
-                    <div class="fs-6 text-secondary" th:text="${#temporals.format(answer.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
-                </section>
-
-                <form class="d-none" th:id="|form_editAnswer_${answer.id}|" th:action="@{|/post/${post.id}/answer/modify/${answer.id}|}" method="POST">
-                    <section class="mx-3" th:id="|edit_answerContent_${answer.id}|">
-                        <textarea class="w-100 bg-light" th:id="|edit_textarea_${answer.id}|" style="resize:none;" name="content" placeholder="댓글을 입력하세요." maxlength="500" rows="1" oninput="autoResize(this)" th:text="${answer.content}"></textarea>
                     </section>
 
-                    <section class="d-flex justify-content-end gap-3 mx-3" th:id="|edit_answerModifyBtn_${answer.id}|">
-                        <button class="fs-6 bg-light text-secondary border-none p-1" th:id="|btn_cancelEdit_${answer.id}|" style="border:none !important;" type="button">취소</button>
-                        <button class="fs-6 bg-light text-secondary border-none p-1" th:id="|btn_saveEdit_${answer.id}|" style="border:none !important;">등록</button>
+                    <section class="mx-3 mb-3" th:id="|view_answerContent_${answer.id}|">
+                        <div th:text="${answer.content}"></div>
                     </section>
-                </form>
-            </div>
-        </div>
 
-        <div class="modal fade" id="modal_deletePost" data-bs-backdrop="static" tabindex="-1" aria-labelledby="modalLabel_deletePost">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="modalLabel_deletePost">게시글 삭제</h1>
-                        <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
-                    </div>
+                    <section th:id="|view_answerModifyDate_${answer.id}|">
+                        <div class="fs-6 text-secondary" th:text="${#temporals.format(answer.modifyDate, 'yyyy-MM-dd HH:mm')}"></div>
+                    </section>
 
-                    <div class="modal-body">
-                        이 게시글을 정말 삭제하시겠습니까?<br>삭제한 후에는 다시 복구할 수 없습니다.
-                    </div>
+                    <form class="d-none" th:id="|form_editAnswer_${answer.id}|" th:action="@{|/post/${post.id}/answer/modify/${answer.id}|}" method="POST">
+                        <section class="mx-3" th:id="|edit_answerContent_${answer.id}|">
+                            <textarea class="w-100 bg-light" th:id="|edit_textarea_${answer.id}|" style="resize:none;" name="content" placeholder="댓글을 입력하세요." maxlength="500" rows="1" oninput="autoResize(this)" th:text="${answer.content}"></textarea>
+                        </section>
 
-                    <div class="modal-footer">
-                        <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">취소</button>
-                        <button class="btn btn-danger" type="button" onclick="$('#form_deletePost').submit();">삭제</button>
-                    </div>
+                        <section class="d-flex justify-content-end gap-3 mx-3" th:id="|edit_answerModifyBtn_${answer.id}|">
+                            <button class="fs-6 bg-light text-secondary border-none p-1" th:id="|btn_cancelEdit_${answer.id}|" style="border:none !important;" type="button">취소</button>
+                            <button class="fs-6 bg-light text-secondary border-none p-1" th:id="|btn_saveEdit_${answer.id}|" style="border:none !important;">등록</button>
+                        </section>
+                    </form>
                 </div>
             </div>
         </div>
-
         <script src="/js/detail.js"></script>
     </div>
 </html>

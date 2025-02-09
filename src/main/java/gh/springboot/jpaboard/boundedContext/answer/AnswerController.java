@@ -55,7 +55,7 @@ public class AnswerController {
     }
 
     @PostMapping("/modify/{answer_id}")
-    public String modifyAnswer(@PathVariable("id") Long id, @PathVariable("answer_id") Long answer_id, Principal principal, AnswerDto answerDto, Model model) {
+    public String modifyAnswer(@PathVariable("id") Long id, @PathVariable("answer_id") Long answer_id, Principal principal, AnswerDto answerDto) {
         if (answerDto.getContent().trim().isEmpty()) {
             return "redirect:/post/detail/%s?error=true#form_writeAnswer".formatted(id);
         }

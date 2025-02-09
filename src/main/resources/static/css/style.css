@@ -116,3 +116,7 @@ textarea {
 .dropdown-item:active, .dropdown-item:focus {
   background-color: black !important;
 }
+
+#btn_cancelEdit:hover, #btn_saveEdit:hover {
+  color: black !important;
+}

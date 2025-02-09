@@ -28,10 +28,12 @@ $(document).ready(function() {
         this.style.height = (this.scrollHeight) + 'px';
     });
 
-    $('#btn_modifyAnswer').on('click', function() {
-        $('#view_answerContent').addClass('d-none');
-        $('#view_answerModifyDate').addClass('d-none');
-        $('#edit_answerContent').removeClass('d-none');
-        $('#edit_answerModifyBtn').addClass('d-none');
+    $(document).on('click', '[id^="btn_modifyAnswer_"]', function() {
+        var answer_id = $(this).attr('id').split('_')[2];
+
+        $('#view_answerContent_' + answer_id).addClass('d-none');
+        $('#view_answerModifyDate_' + answer_id).addClass('d-none');
+        $('#form_editAnswer_' + answer_id).removeClass('d-none');
+        $('#edit_textarea_' + answer_id).focus().get(0).setSelectionRange($('#edit_textarea_' + answer_id).val().length, $('#edit_textarea_' + answer_id).val().length);
     });
 });

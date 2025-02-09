@@ -82,15 +82,16 @@ public class PostService {
         return postRepository.searchAnswerCountByPostId(id);
     }
 
-    public boolean likePost(Post post, String loginUser) {
-        try {
+    public boolean likePost(Post post, SiteUser loginUser) {
+        if (post.getLikedUsers().contains(loginUser)) {
+            return false;
+        } else {
             post.setLikeCount(post.getLikeCount() + 1);
+            post.addLikedUser(loginUser);
 
             postRepository.save(post);
 
             return true;
-        } catch (Exception e) {
-            return false;
         }
     }
 

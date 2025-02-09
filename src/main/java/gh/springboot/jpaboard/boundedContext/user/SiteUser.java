@@ -11,10 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Getter
@@ -46,6 +43,9 @@ public class SiteUser implements UserDetails {
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Answer> answers = new ArrayList<>();
 
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private Set<Post> likePosts = new LinkedHashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + this.role.name()));
@@ -63,6 +63,10 @@ public class SiteUser implements UserDetails {
     public void addAnswer(Answer answer) {
         answer.setAuthor(this);
         answers.add(answer);
+    }
+
+    public void addLikePost(Post post) {
+        likePosts.add(post);
     }
 
 }

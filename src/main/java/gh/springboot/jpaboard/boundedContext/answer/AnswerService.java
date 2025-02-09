@@ -26,7 +26,7 @@ public class AnswerService {
                 .postAnswerId(post.getAnswerCount() + 1)
                 .build();
 
-        post.addAnswer(answer);
+        post.addAnswer(answer, author);
 
         return answerRepository.save(answer);
     }

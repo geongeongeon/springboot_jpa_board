@@ -129,18 +129,22 @@ public class PostController {
 
         try {
             Integer postId = (Integer) request.get("postId");
-            String loginUser = (String) request.get("loginUser");
-
-            System.out.println("postId : " + postId);
-            System.out.println("loginUser : " + loginUser);
+            String loginUsername = (String) request.get("loginUser");
 
             Optional<Post> optPost = postService.getPostById(postId.longValue());
             Post post = optPost.orElseThrow();
 
+            Optional<SiteUser> optLoginUser = userService.getSiteUserByUsername(loginUsername);
+            SiteUser loginUser = optLoginUser.orElseThrow();
+
             boolean isLiked = postService.likePost(post, loginUser);
 
             response.put("success", isLiked);
-            response.put("likeCount", post.getLikeCount());
+
+            if (isLiked) {
+                response.put("likeCount", post.getLikeCount());
+            }
+
         } catch (Exception e) {
             response.put("error", true);
         }

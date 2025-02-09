@@ -13,3 +13,9 @@ SELECT * FROM post;
 
 DESC answer;
 SELECT * FROM answer;
+
+DESC post_liked_users;
+SELECT * FROM post_liked_users;
+
+DESC site_user_like_posts;
+SELECT * FROM site_user_like_posts;

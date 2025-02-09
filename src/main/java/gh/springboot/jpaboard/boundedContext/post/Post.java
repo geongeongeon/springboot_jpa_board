@@ -48,11 +48,19 @@ public class Post {
     @OneToMany(mappedBy = "post", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
 
+    @ManyToMany(cascade = CascadeType.REMOVE)
+    private Set<SiteUser> likedUsers = new LinkedHashSet<>();
 
-    public void addAnswer(Answer answer) {
+    public void addAnswer(Answer answer, SiteUser author) {
         answer.setPost(this);
         answers.add(answer);
+        author.addAnswer(answer);
         answerCount++;
+    }
+
+    public void addLikedUser(SiteUser user) {
+        user.addLikePost(this);
+        likedUsers.add(user);
     }
 
 }
